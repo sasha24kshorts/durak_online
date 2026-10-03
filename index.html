@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Дурак Онлайн</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+
+:root {
+    --bg-gradient-1: #1a2a1f; --bg-gradient-2: #0e1a12;
+    --app-bg: #1e2c24; --app-border: #3a5544;
+    --card-bg: #18231d; --card-border: #3c5546;
+    --text-main: #e9f5e6; --text-soft: #b6d9be; --text-muted: #839e8c;
+    --title-color: #d4edc9;
+    --btn-bg: #2c3e33; --btn-border: #4e6b5a; --btn-text: #f0f7ec; --btn-shadow: #0d1510;
+    --primary-bg: #3f6b4f; --primary-border: #7fa88b; --primary-shadow: #1a2a1f;
+    --accent: #ffd966;
+    --input-bg: #0f1a13; --input-border: #3c5546;
+    --danger-bg: #7a2f2f; --danger-border: #b55454; --danger-shadow: #2a0f0f;
+    --divider: #355542; --settings-border: #2b3f33;
+    --toggle-bg: #2b3f33; --toggle-border: #4e6b5a; --toggle-knob: #cfebd2;
+    --chip-bg: #22382c; --chip-border: #3f5e4c;
+    --chip-active-bg: #4e8a5f; --chip-active-border: #8fc0a0;
+    --chip-disabled-bg: #1a1f1c; --chip-disabled-border: #2a3530;
+    --table-bg: #0a1a10; --table-border: #2a4535;
+    --drop-highlight: #4ec0ff;
+}
+body.theme-light {
+    --bg-gradient-1: #dfe9e2; --bg-gradient-2: #c8d6cc;
+    --app-bg: #f4faf5; --app-border: #b9ccbe;
+    --card-bg: #ffffff; --card-border: #d2e0d5;
+    --text-main: #1a2a1f; --text-soft: #3a5544; --text-muted: #6a8574;
+    --title-color: #1e3a26;
+    --btn-bg: #e2ece5; --btn-border: #a9c2b0; --btn-text: #1a2a1f; --btn-shadow: #b9ccbe;
+    --primary-bg: #4caf50; --primary-border: #2e7d32; --primary-shadow: #1b5e20;
+    --accent: #d49b00;
+    --input-bg: #ffffff; --input-border: #b9ccbe;
+    --danger-bg: #e57373; --danger-border: #c62828; --danger-shadow: #8e1e1e;
+    --divider: #b9ccbe; --settings-border: #d2e0d5;
+    --toggle-bg: #cfdcd3; --toggle-border: #a9c2b0; --toggle-knob: #ffffff;
+    --chip-bg: #e2ece5; --chip-border: #b9ccbe;
+    --chip-active-bg: #4caf50; --chip-active-border: #2e7d32;
+    --chip-disabled-bg: #eceaea; --chip-disabled-border: #d0cfcf;
+    --table-bg: #c8d6cc; --table-border: #a9c2b0;
+    --drop-highlight: #2196f3;
+}
+body.theme-emerald {
+    --bg-gradient-1: #062b23; --bg-gradient-2: #021a15;
+    --app-bg: #0a3b2f; --app-border: #1a6a52;
+    --card-bg: #0e4a3b; --card-border: #1f7a5e;
+    --text-main: #e0fff3; --text-soft: #a9e5cd; --text-muted: #6bb99a;
+    --title-color: #b3ffe0;
+    --btn-bg: #0e4a3b; --btn-border: #2a9b78; --btn-text: #e0fff3; --btn-shadow: #042018;
+    --primary-bg: #14b88a; --primary-border: #4de0b0; --primary-shadow: #052b20;
+    --accent: #ffe066;
+    --input-bg: #062b23; --input-border: #1a6a52;
+    --danger-bg: #8a2e2e; --danger-border: #c25454; --danger-shadow: #2a0f0f;
+    --divider: #1a6a52; --settings-border: #155642;
+    --toggle-bg: #0e4a3b; --toggle-border: #2a9b78; --toggle-knob: #b3ffe0;
+    --chip-bg: #0e4a3b; --chip-border: #1f7a5e;
+    --chip-active-bg: #14b88a; --chip-active-border: #4de0b0;
+    --chip-disabled-bg: #08211a; --chip-disabled-border: #0e3a2f;
+    --table-bg: #041d18; --table-border: #0e3a2f;
+    --drop-highlight: #4de0b0;
+}
+body.theme-night {
+    --bg-gradient-1: #14161e; --bg-gradient-2: #05070d;
+    --app-bg: #1a1d2a; --app-border: #2f3349;
+    --card-bg: #1e2233; --card-border: #343854;
+    --text-main: #e6e9f5; --text-soft: #b0b6d0; --text-muted: #7b81a0;
+    --title-color: #c8cff0;
+    --btn-bg: #262a3d; --btn-border: #3f4566; --btn-text: #e6e9f5; --btn-shadow: #0a0c14;
+    --primary-bg: #4d56b8; --primary-border: #7b84e0; --primary-shadow: #161a3a;
+    --accent: #ffd966;
+    --input-bg: #0f1119; --input-border: #2f3349;
+    --danger-bg: #8a2e4a; --danger-border: #c25474; --danger-shadow: #2a0f1e;
+    --divider: #2f3349; --settings-border: #262a3d;
+    --toggle-bg: #262a3d; --toggle-border: #3f4566; --toggle-knob: #c8cff0;
+    --chip-bg: #262a3d; --chip-border: #3f4566;
+    --chip-active-bg: #4d56b8; --chip-active-border: #7b84e0;
+    --chip-disabled-bg: #1a1d2a; --chip-disabled-border: #2f3349;
+    --table-bg: #0f1119; --table-border: #2f3349;
+    --drop-highlight: #7b84e0;
+}
+
+html, body { height: 100%; }
+
+body {
+    background: linear-gradient(145deg, var(--bg-gradient-1) 0%, var(--bg-gradient-2) 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex; justify-content: center; align-items: flex-start;
+    padding: 8px;
+    overflow-y: auto; overflow-x: hidden;
+}
+
+.app {
+    width: 100%; max-width: 480px; background: var(--app-bg);
+    border-radius: 28px;
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.7);
+    padding: 16px 14px 20px; border: 1px solid var(--app-border);
+    position: relative; display: flex; flex-direction: column;
+    margin: 8px 0;
+}
+
+.screen {
+    display: none; flex-direction: column;
+    animation: fade 0.25s ease; flex: 1;
+    overflow-y: auto; overflow-x: hidden;
+    max-height: calc(100vh - 60px);
+    padding-right: 2px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn-border) transparent;
+}
+.screen.active { display: flex; }
+.screen::-webkit-scrollbar { width: 6px; }
+.screen::-webkit-scrollbar-thumb { background: var(--btn-border); border-radius: 3px; }
+.screen::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes fade { from { opacity: 0.5; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+h1, h2, h3 { color: var(--text-main); font-weight: 500; }
+.title-main { text-align: center; font-size: 28px; margin-bottom: 20px; color: var(--title-color); font-weight: 600; letter-spacing: 2px; }
+.menu-buttons { display: flex; flex-direction: column; gap: 12px; margin: 12px 0; }
+
+.menu-btn {
+    background: var(--btn-bg); border: 1px solid var(--btn-border);
+    border-radius: 60px; padding: 16px 20px;
+    font-size: 18px; font-weight: 600; color: var(--btn-text);
+    text-align: left; display: flex; align-items: center; gap: 14px;
+    cursor: pointer; transition: 0.15s;
+    box-shadow: 0 5px 0 var(--btn-shadow); position: relative;
+}
+.menu-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--btn-shadow); }
+.menu-btn i { font-size: 22px; width: 30px; text-align: center; font-style: normal; }
+
+.badge { position: absolute; top: 4px; right: 12px; background: #d94a4a; color: white; min-width: 24px; height: 24px; padding: 0 7px; border-radius: 12px; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid var(--btn-bg); }
+.badge.hidden { display: none; }
+
+.card { background: var(--card-bg); border-radius: 22px; padding: 16px; border: 1px solid var(--card-border); margin-bottom: 12px; }
+.flex-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+
+.credits-badge { background: var(--primary-bg); padding: 8px 14px; border-radius: 50px; display: flex; align-items: center; gap: 8px; border: 1px solid var(--primary-border); }
+.credits-badge span { font-size: 20px; font-weight: 700; color: var(--accent); }
+
+.plus-btn { background: var(--primary-bg); border: 1px solid var(--primary-border); border-radius: 50%; width: 42px; height: 42px; font-size: 26px; font-weight: 600; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 0 var(--primary-shadow); }
+.plus-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--primary-shadow); }
+.plus-btn.disabled { background: #4a4a4a; border-color: #6a6a6a; cursor: not-allowed; opacity: 0.6; }
+
+.back-btn { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 30px; padding: 10px 18px; font-size: 15px; font-weight: 600; color: var(--btn-text); cursor: pointer; box-shadow: 0 3px 0 var(--btn-shadow); width: fit-content; }
+.back-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--btn-shadow); }
+
+input { width: 100%; padding: 14px 16px; border-radius: 30px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-main); font-size: 16px; outline: none; margin-bottom: 12px; }
+input::placeholder { color: var(--text-muted); }
+
+.btn-primary { background: var(--primary-bg); border: 1px solid var(--primary-border); border-radius: 60px; padding: 14px 20px; font-size: 17px; font-weight: 700; color: white; width: 100%; cursor: pointer; box-shadow: 0 5px 0 var(--primary-shadow); }
+.btn-primary:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--primary-shadow); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.btn-danger { background: var(--danger-bg); border-color: var(--danger-border); box-shadow: 0 5px 0 var(--danger-shadow); }
+
+.btn-google { background: #ffffff; color: #1f1f1f; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px; border-radius: 60px; font-weight: 600; font-size: 16px; border: none; cursor: pointer; box-shadow: 0 4px 0 #9aa79e; width: 100%; margin-bottom: 14px; }
+.btn-google:active { transform: translateY(3px); box-shadow: 0 1px 0 #9aa79e; }
+
+.divider { display: flex; align-items: center; color: var(--text-muted); font-size: 13px; margin: 10px 0 14px; gap: 10px; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--divider); }
+
+.link-text { color: var(--text-soft); text-align: center; margin-top: 10px; font-size: 15px; cursor: pointer; text-decoration: underline dotted; }
+.small-note { color: var(--text-muted); font-size: 13px; margin-top: 6px; }
+.profile-nick { font-size: 24px; font-weight: 700; color: var(--text-main); text-align: center; margin: 6px 0 2px; word-break: break-word; }
+.profile-status { text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+
+.settings-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 2px; border-bottom: 1px solid var(--settings-border); gap: 10px; }
+.settings-item:last-of-type { border-bottom: none; }
+.settings-label { display: flex; flex-direction: column; gap: 3px; }
+.settings-label .name { color: var(--text-main); font-size: 16px; font-weight: 600; }
+.settings-label .hint { color: var(--text-muted); font-size: 12px; }
+
+.toggle { position: relative; width: 56px; height: 30px; background: var(--toggle-bg); border-radius: 30px; cursor: pointer; border: 1px solid var(--toggle-border); flex-shrink: 0; }
+.toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; background: var(--toggle-knob); border-radius: 50%; transition: 0.2s; }
+.toggle.on { background: var(--primary-bg); border-color: var(--primary-border); }
+.toggle.on::after { left: 28px; background: var(--accent); }
+
+.layout-switch { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 30px; padding: 8px 12px; color: var(--btn-text); font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 3px 0 var(--btn-shadow); min-width: 130px; text-align: center; }
+.layout-switch:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--btn-shadow); }
+.layout-switch .mode { display: block; color: var(--accent); font-size: 13px; margin-top: 2px; }
+
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); z-index: 1000; justify-content: center; align-items: center; padding: 16px; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--app-bg); border-radius: 24px; padding: 24px 20px; border: 1px solid var(--btn-border); max-width: 380px; width: 100%; text-align: center; }
+.modal h3 { color: var(--text-main); font-size: 19px; margin-bottom: 8px; }
+.modal p { color: var(--text-soft); font-size: 15px; margin-bottom: 18px; line-height: 1.4; }
+.modal input { margin-bottom: 14px; }
+.modal-buttons { display: flex; gap: 10px; }
+.modal-buttons .btn-primary, .modal-buttons .btn-secondary { flex: 1; padding: 12px; font-size: 15px; }
+
+.btn-secondary { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 60px; color: var(--btn-text); font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 var(--btn-shadow); }
+.btn-secondary:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--btn-shadow); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.layout-preview { background: var(--input-bg); border-radius: 12px; padding: 10px; margin-top: 10px; font-family: 'Courier New', monospace; font-size: 12px; color: var(--text-soft); overflow-x: auto; white-space: nowrap; border: 1px solid var(--settings-border); }
+.layout-preview .trump { color: var(--accent); font-weight: 700; }
+
+.friends-header { display: flex; gap: 8px; margin-bottom: 16px; }
+.search-input-wrap { position: relative; flex: 1; }
+.search-input-wrap input { margin-bottom: 0; padding-right: 40px; }
+.search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 4px; display: none; }
+.search-clear.visible { display: block; }
+.search-btn { background: var(--primary-bg); border: 1px solid var(--primary-border); border-radius: 30px; width: 50px; height: 50px; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 0 var(--primary-shadow); flex-shrink: 0; }
+.search-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--primary-shadow); }
+
+.section-title { color: var(--text-main); font-size: 15px; font-weight: 700; margin: 14px 2px 8px; display: flex; align-items: center; gap: 6px; }
+.section-title .count { color: var(--text-muted); font-size: 13px; font-weight: 500; }
+.section-title.badge-red::after { content: attr(data-count); background: #d94a4a; color: white; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
+
+.friend-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 8px; background: var(--input-bg); border: 1px solid var(--card-border); border-radius: 16px; }
+.friend-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px; flex-shrink: 0; position: relative; border: 2px solid var(--primary-border); }
+.friend-avatar.online::after { content: ""; position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; background: #4cd964; border-radius: 50%; border: 2px solid var(--input-bg); }
+.friend-avatar.offline::after { content: ""; position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; background: #7a7a7a; border-radius: 50%; border: 2px solid var(--input-bg); }
+.friend-avatar.in-game::after { content: ""; position: absolute; bottom: -2px; right: -2px; width: 12px; height: 12px; background: #ffd966; border-radius: 50%; border: 2px solid var(--input-bg); }
+.friend-info { flex: 1; min-width: 0; }
+.friend-nick { color: var(--text-main); font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.friend-meta { color: var(--text-muted); font-size: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+.friend-meta .credits { color: var(--accent); font-weight: 600; }
+.friend-actions { display: flex; gap: 5px; flex-shrink: 0; }
+.icon-btn { background: var(--btn-bg); border: 1px solid var(--btn-border); border-radius: 50%; width: 34px; height: 34px; color: var(--btn-text); font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 0 var(--btn-shadow); }
+.icon-btn:active { transform: translateY(2px); box-shadow: none; }
+.icon-btn.primary { background: var(--primary-bg); border-color: var(--primary-border); color: white; }
+.icon-btn.danger { background: var(--danger-bg); border-color: var(--danger-border); }
+.icon-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.empty-state { text-align: center; color: var(--text-muted); padding: 24px 12px; font-size: 14px; }
+.empty-state .icon { font-size: 40px; margin-bottom: 8px; opacity: 0.5; }
+
+.friends-scroll { max-height: 320px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--btn-border) transparent; }
+.friends-scroll::-webkit-scrollbar { width: 5px; }
+.friends-scroll::-webkit-scrollbar-thumb { background: var(--btn-border); border-radius: 3px; }
+
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--primary-bg); color: white; padding: 12px 20px; border-radius: 30px; font-size: 14px; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.6); border: 1px solid var(--primary-border); z-index: 2000; opacity: 0; transition: 0.3s ease; pointer-events: none; max-width: 90%; text-align: center; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.error { background: var(--danger-bg); border-color: var(--danger-border); }
+.toast.success { background: #2e7d32; border-color: #66bb6a; }
+
+.group-label { color: var(--text-soft); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin: 14px 2px 8px; }
+.group-label:first-of-type { margin-top: 4px; }
+.group-label .hint { color: var(--text-muted); font-size: 10px; text-transform: none; letter-spacing: 0; font-weight: 500; }
+
+.chip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.chip-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+.chip-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.chip-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+.chip { background: var(--chip-bg); border: 1px solid var(--chip-border); border-radius: 12px; padding: 10px 4px; color: var(--text-main); font-size: 13px; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 2px 0 var(--btn-shadow); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.15; }
+.chip:active { transform: translateY(2px); box-shadow: none; }
+.chip.active { background: var(--chip-active-bg); border-color: var(--chip-active-border); color: white; }
+.chip.disabled { background: var(--chip-disabled-bg); border-color: var(--chip-disabled-border); color: var(--text-muted); cursor: not-allowed; opacity: 0.5; }
+.chip .sub { display: block; font-size: 10px; font-weight: 500; color: var(--text-muted); margin-top: 1px; }
+.chip.active .sub { color: rgba(255,255,255,0.8); }
+
+.mod-btn { background: var(--chip-bg); border: 1px solid var(--chip-border); border-radius: 14px; padding: 10px 6px; color: var(--text-main); font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; box-shadow: 0 2px 0 var(--btn-shadow); display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center; min-height: 56px; }
+.mod-btn:active { transform: translateY(2px); box-shadow: none; }
+.mod-btn.active { background: var(--chip-active-bg); border-color: var(--chip-active-border); color: white; }
+.mod-btn .mod-icon { font-size: 16px; }
+.mod-btn .mod-name { font-size: 11px; font-weight: 700; }
+.mod-btn .mod-desc { font-size: 9px; font-weight: 500; color: var(--text-muted); line-height: 1.15; }
+.mod-btn.active .mod-desc { color: rgba(255,255,255,0.8); }
+
+.summary-box { background: var(--input-bg); border-radius: 14px; padding: 10px 12px; border: 1px solid var(--card-border); margin: 12px 0 10px; }
+.summary-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; border-bottom: 1px dashed var(--settings-border); }
+.summary-row:last-child { border-bottom: none; }
+.summary-row .key { color: var(--text-muted); }
+.summary-row .val { color: var(--text-main); font-weight: 700; }
+.summary-row .val.accent { color: var(--accent); }
+
+.lobby-header { text-align: center; margin-bottom: 12px; }
+.lobby-header .title { color: var(--accent); font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+.lobby-header .subtitle { color: var(--text-muted); font-size: 13px; margin-top: 3px; }
+
+.lobby-players { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.player-slot { background: var(--input-bg); border: 2px dashed var(--card-border); border-radius: 14px; padding: 10px 6px; text-align: center; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; }
+.player-slot.filled { border-style: solid; border-color: var(--primary-border); background: var(--chip-bg); }
+.player-slot.bot-filled { border-color: #5a7aaa; background: rgba(90, 122, 170, 0.15); }
+.player-slot .p-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; color: white; border: 2px solid var(--primary-border); }
+.player-slot .p-name { font-size: 11px; font-weight: 700; color: var(--text-main); word-break: break-word; line-height: 1.15; max-width: 100%; }
+.player-slot .p-role { font-size: 9px; color: var(--accent); font-weight: 600; }
+.player-slot.bot-filled .p-role { color: #7ba8d8; }
+.player-slot .p-wait { color: var(--text-muted); font-size: 10px; animation: pulseWait 1.5s infinite; }
+@keyframes pulseWait { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+.lobby-actions { display: flex; flex-direction: column; gap: 8px; }
+.lobby-actions-row { display: flex; gap: 8px; }
+.lobby-actions-row .btn-secondary { flex: 1; padding: 12px; font-size: 14px; }
+.bet-return-note { color: var(--text-muted); font-size: 12px; text-align: center; margin-top: 6px; }
+
+.lobby-params { background: var(--input-bg); border-radius: 14px; padding: 10px 12px; border: 1px solid var(--card-border); margin-bottom: 12px; }
+.lobby-params .lp-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 12px; border-bottom: 1px dashed var(--settings-border); }
+.lobby-params .lp-row:last-child { border-bottom: none; }
+.lobby-params .lp-key { color: var(--text-muted); }
+.lobby-params .lp-val { color: var(--text-main); font-weight: 700; }
+.lobby-params .lp-val.accent { color: var(--accent); }
+
+.game-top { display: flex; justify-content: space-between; align-items: center; background: var(--input-bg); border-radius: 14px; padding: 8px 12px; margin-bottom: 8px; border: 1px solid var(--card-border); font-size: 12px; gap: 4px; }
+.game-top .info-block { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.game-top .info-label { color: var(--text-muted); font-size: 10px; }
+.game-top .info-value { color: var(--text-main); font-weight: 700; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.game-top .info-value.accent { color: var(--accent); }
+
+.timer-bar { height: 4px; background: var(--input-bg); border-radius: 2px; overflow: hidden; margin-bottom: 8px; border: 1px solid var(--card-border); }
+.timer-fill { height: 100%; background: var(--accent); transition: width 1s linear; width: 100%; }
+.timer-fill.warning { background: #d94a4a; }
+
+.table-area { display: grid; grid-template-columns: 64px 1fr 64px; gap: 6px; margin-bottom: 8px; min-height: 130px; }
+
+.deck-col { background: var(--table-bg); border-radius: 14px; padding: 6px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; border: 1px solid var(--table-border); position: relative; }
+.deck-count { color: var(--accent); font-size: 12px; font-weight: 700; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 8px; z-index: 2; }
+.deck-trump { background: white; color: #1a1a1a; width: 44px; height: 62px; border-radius: 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.4); border: 1px solid #ccc; margin-top: auto; position: relative; z-index: 1; transition: opacity 0.3s ease; }
+.deck-trump.red { color: #c00; }
+.deck-trump::before { content: ""; position: absolute; top: -3px; left: -3px; right: 3px; bottom: 3px; background: #2a2a2a; border-radius: 5px; z-index: -1; border: 1px solid #444; }
+.deck-trump.empty { opacity: 0.5; }
+
+.center-table { background: var(--table-bg); border-radius: 14px; padding: 8px; display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start; justify-content: center; min-height: 130px; border: 1px solid var(--table-border); position: relative; }
+.pair-wrap { display: flex; gap: 2px; position: relative; }
+
+.beat-col { background: var(--table-bg); border-radius: 14px; padding: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid var(--table-border); gap: 4px; }
+.beat-icon { font-size: 28px; opacity: 0.5; }
+.beat-label { color: var(--text-muted); font-size: 10px; text-align: center; }
+
+.mini-card { width: 34px; height: 48px; border-radius: 4px; background: white; color: #1a1a1a; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; box-shadow: 0 2px 3px rgba(0,0,0,0.5); border: 1px solid #ccc; line-height: 1; flex-shrink: 0; position: relative; cursor: pointer; }
+.mini-card.red { color: #c00; }
+.mini-card.attacking { background: #fff8dc; }
+.mini-card.defending { background: #e0f0ff; }
+.mini-card.trump-card { box-shadow: 0 2px 3px rgba(0,0,0,0.5), 0 0 0 2px #d4a000; }
+.mini-card:active { transform: scale(0.95); }
+
+.transfer-slot { width: 34px; height: 48px; border-radius: 4px; border: 2px dashed var(--drop-highlight); background: rgba(78, 192, 255, 0.1); display: flex; align-items: center; justify-content: center; color: var(--drop-highlight); font-size: 20px; font-weight: 700; flex-shrink: 0; cursor: pointer; transition: 0.15s; position: relative; }
+.transfer-slot:hover { background: rgba(78, 192, 255, 0.25); }
+.transfer-slot.drop-target { background: rgba(78, 192, 255, 0.4); transform: scale(1.08); }
+
+.players-info { display: flex; justify-content: space-around; gap: 4px; margin-bottom: 6px; background: var(--input-bg); padding: 6px 4px; border-radius: 12px; border: 1px solid var(--card-border); font-size: 11px; flex-wrap: wrap; }
+.player-info { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 6px; border-radius: 8px; min-width: 60px; }
+.player-info.active { background: var(--primary-bg); box-shadow: 0 0 0 2px var(--accent); }
+.player-info.out { opacity: 0.4; }
+.player-info .pi-name { color: var(--text-main); font-size: 11px; font-weight: 700; max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player-info.active .pi-name { color: white; }
+.player-info .pi-cards { color: var(--accent); font-size: 11px; font-weight: 700; }
+
+.hand-area { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; min-height: 100px; padding-top: 6px; }
+.hand-label { color: var(--text-muted); font-size: 11px; margin-bottom: 4px; padding-left: 4px; }
+.hand { display: flex; gap: 4px; overflow-x: auto; overflow-y: visible; padding: 6px 2px 8px; scrollbar-width: thin; scrollbar-color: var(--btn-border) transparent; }
+.hand::-webkit-scrollbar { height: 5px; }
+.hand::-webkit-scrollbar-thumb { background: var(--btn-border); border-radius: 3px; }
+
+.hand-card { width: 48px; height: 68px; border-radius: 6px; background: white; color: #1a1a1a; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; box-shadow: 0 3px 5px rgba(0,0,0,0.5); border: 1px solid #ccc; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; flex-shrink: 0; line-height: 1; user-select: none; position: relative; touch-action: none; }
+.hand-card.red { color: #c00; }
+.hand-card.trump-card { box-shadow: 0 3px 5px rgba(0,0,0,0.5), 0 0 0 2px #d4a000; }
+.hand-card.dragging { opacity: 0.4; }
+.hand-card.disabled { opacity: 0.4; cursor: not-allowed; }
+.hand-card.disabled:active { transform: none; }
+
+.drag-ghost { position: fixed; pointer-events: none; width: 48px; height: 68px; border-radius: 6px; background: white; color: #1a1a1a; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.7), 0 0 0 2px var(--accent); border: 1px solid #ccc; z-index: 9999; transform: translate(-50%, -50%); }
+.drag-ghost.red { color: #c00; }
+
+.game-controls { display: flex; gap: 6px; margin-top: 6px; }
+.ctrl-btn { flex: 1; padding: 10px 6px; border-radius: 12px; border: 1px solid; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.1s; text-align: center; }
+.ctrl-btn:active { transform: translateY(2px); }
+.ctrl-btn.pass { background: var(--btn-bg); border-color: var(--btn-border); color: var(--btn-text); box-shadow: 0 3px 0 var(--btn-shadow); }
+.ctrl-btn.take { background: #8a5a1a; border-color: #b57a2a; color: white; box-shadow: 0 3px 0 #3a2008; }
+.ctrl-btn.beat { background: var(--primary-bg); border-color: var(--primary-border); color: white; box-shadow: 0 3px 0 var(--primary-shadow); }
+.ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.ctrl-btn.exit { background: var(--danger-bg); border-color: var(--danger-border); color: white; box-shadow: 0 3px 0 var(--danger-shadow); flex: 0 0 46px; }
+
+.result-box { text-align: center; padding: 20px 10px; }
+.result-box .result-icon { font-size: 64px; margin-bottom: 10px; }
+.result-box .result-title { color: var(--accent); font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+.result-box .result-text { color: var(--text-soft); font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+.result-box .prize { color: var(--accent); font-size: 22px; font-weight: 700; margin: 10px 0; }
+
+.exit-warn { color: var(--danger-border); font-size: 14px; font-weight: 600; margin-top: 8px; }
+</style>
+</head>
+<body class="theme-dark">
+<div class="app" id="app">
+
+    <div id="authScreen" class="screen active">
+        <div class="title-main">🃏 ДУРАК ОНЛАЙН</div>
+        <div class="card">
+            <button class="btn-google" id="googleAuthBtn">🔍 Войти через Google</button>
+            <div class="divider">или</div>
+            <input type="text" id="nicknameInput" placeholder="Придумайте никнейм" autocomplete="off">
+            <input type="password" id="passwordInput" placeholder="Пароль">
+            <button class="btn-primary" id="registerBtn">Создать аккаунт</button>
+            <div class="link-text" id="showLoginLink">Уже есть аккаунт? Войти</div>
+        </div>
+        <div class="small-note" style="text-align:center;">Стартовый капитал: 9999 кредитов</div>
+    </div>
+
+    <div id="loginScreen" class="screen">
+        <div class="title-main">Вход</div>
+        <div class="card">
+            <input type="text" id="loginNickname" placeholder="Никнейм">
+            <input type="password" id="loginPassword" placeholder="Пароль">
+            <button class="btn-primary" id="loginBtn">Войти</button>
+            <div class="link-text" id="showRegisterLink">Нет аккаунта? Зарегистрироваться</div>
+        </div>
+        <button class="back-btn" id="backToAuthFromLogin">← Назад</button>
+    </div>
+
+    <div id="mainMenuScreen" class="screen">
+        <div class="flex-row" style="justify-content: space-between; margin-bottom: 10px;">
+            <div class="profile-nick" id="menuNickname">Гость</div>
+            <div class="credits-badge">
+                <span id="menuCredits">0</span>
+                <button class="plus-btn" id="menuPlusBtn">+</button>
+            </div>
+        </div>
+        <div class="profile-status">Главное меню</div>
+        <div class="menu-buttons">
+            <button class="menu-btn" id="btnProfile"><i>👤</i> Профиль</button>
+            <button class="menu-btn" id="btnSettings"><i>⚙️</i> Настройки</button>
+            <button class="menu-btn" id="btnFriends"><i>👥</i> Друзья<span class="badge hidden" id="friendsBadge">0</span></button>
+            <button class="menu-btn" id="btnCreateGame"><i>🎮</i> Создать игру</button>
+        </div>
+    </div>
+
+    <div id="profileScreen" class="screen">
+        <button class="back-btn" id="profileBackBtn">← Выйти в меню</button>
+        <div class="card" style="margin-top: 12px;">
+            <div class="profile-nick" id="profileNickname">Игрок</div>
+            <div class="flex-row" style="justify-content: center; gap: 20px; margin: 16px 0;">
+                <div class="credits-badge" style="font-size: 20px;">💰 <span id="profileCredits">0</span></div>
+                <button class="plus-btn" id="profilePlusBtn">+</button>
+            </div>
+            <div style="color: var(--text-soft); text-align: center; font-size: 15px;">Ваш баланс</div>
+        </div>
+        <div class="small-note" style="text-align:center;">+ доступен при балансе меньше 1500</div>
+    </div>
+
+    <div id="adScreen" class="screen">
+        <button class="back-btn" id="adBackBtn">← Назад</button>
+        <div class="card" style="text-align: center; margin-top: 12px;">
+            <div style="background: var(--input-bg); border-radius: 20px; padding: 24px 16px; border: 2px dashed var(--btn-border); margin: 16px 0; color: var(--text-soft);">
+                <div style="font-size: 56px; margin-bottom: 10px;">📺</div>
+                <h3 style="margin-bottom: 8px;">Просмотр рекламы</h3>
+                <div id="fakeAdText" style="background: var(--card-bg); padding: 14px; border-radius: 12px; margin: 14px 0; font-style: italic; font-size: 16px; border: 1px solid var(--btn-border);">Реклама: играй в Дурак Онлайн!</div>
+                <div id="adTimer" style="font-size: 16px; font-weight: 600;">Нажмите кнопку ниже</div>
+                <button class="btn-primary" id="watchAdBtn" style="margin-top: 14px;">Смотреть рекламу (5 сек)</button>
+                <div class="small-note">+1499 кредитов за просмотр</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsScreen" class="screen">
+        <button class="back-btn" id="settingsBackBtn">← Назад</button>
+        <div class="card" style="margin-top: 12px;">
+            <h2 style="margin-bottom: 6px;">⚙️ Настройки</h2>
+            <div class="settings-item">
+                <div class="settings-label"><span class="name">🔊 Звуки</span><span class="hint" id="soundHint">Включены</span></div>
+                <div class="toggle on" id="soundToggle"></div>
+            </div>
+            <div class="settings-item" style="flex-direction: column; align-items: stretch;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                    <div class="settings-label"><span class="name">🃏 Раскладка карт</span><span class="hint">Сортировка в руке</span></div>
+                    <button class="layout-switch" id="layoutToggle">Режим<span class="mode" id="layoutModeLabel">По мастям</span></button>
+                </div>
+                <div class="layout-preview" id="layoutPreview"></div>
+            </div>
+            <div class="settings-item">
+                <div class="settings-label"><span class="name">🌐 Язык</span></div>
+                <button class="layout-switch" id="langToggle" style="min-width:auto;"><span id="langLabel">Русский</span></button>
+            </div>
+            <div class="settings-item">
+                <div class="settings-label"><span class="name">🎨 Тема</span></div>
+                <button class="layout-switch" id="themeToggle" style="min-width:auto;"><span id="themeLabel">Тёмная</span></button>
+            </div>
+            <div class="settings-item">
+                <div class="settings-label"><span class="name">✏️ Смена никнейма</span></div>
+                <button class="layout-switch" id="changeNickBtn" style="min-width:auto; background:#3a5a8a; border-color:#5a7aaa;">Изменить</button>
+            </div>
+            <div class="settings-item" style="border-bottom:none;">
+                <div class="settings-label"><span class="name">🚪 Выход</span></div>
+                <button class="layout-switch" id="logoutBtn" style="min-width:auto; background:#5a2424; border-color:#a04a4a;">Выйти</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="friendsScreen" class="screen">
+        <button class="back-btn" id="friendsBackBtn">← Назад</button>
+        <div class="card" style="margin-top: 12px;">
+            <h2 style="margin-bottom: 12px;">👥 Друзья</h2>
+            <div class="friends-header">
+                <div class="search-input-wrap">
+                    <input type="text" id="friendSearchInput" placeholder="Поиск по никнейму" autocomplete="off">
+                    <button class="search-clear" id="searchClearBtn">×</button>
+                </div>
+                <button class="search-btn" id="searchBtn">🔍</button>
+            </div>
+            <div id="searchResultsWrap" style="display:none;">
+                <div class="section-title"><span>Результаты поиска</span><span class="count" id="searchResultsCount"></span></div>
+                <div id="searchResults"></div>
+            </div>
+            <div id="incomingSection" style="display:none;">
+                <div class="section-title badge-red" id="incomingTitle" data-count="0"><span>📥 Входящие</span></div>
+                <div id="incomingList"></div>
+            </div>
+            <div id="outgoingSection" style="display:none;">
+                <div class="section-title"><span>📤 Исходящие</span><span class="count" id="outgoingCount"></span></div>
+                <div id="outgoingList"></div>
+            </div>
+            <div class="section-title"><span>Мои друзья</span><span class="count" id="friendsCount"></span></div>
+            <div class="friends-scroll" id="friendsList"></div>
+        </div>
+    </div>
+
+    <div id="createGameScreen" class="screen">
+        <button class="back-btn" id="createGameBackBtn">← Назад</button>
+        <div class="card" style="margin-top: 12px;">
+            <h2 style="margin-bottom: 4px;">🎮 Создать игру</h2>
+            <div class="group-label">💰 Ставка <span class="hint">(кредитов)</span></div>
+            <div class="chip-grid" id="betGrid"></div>
+            <div class="group-label">👥 Игроков</div>
+            <div class="chip-grid cols-5" id="playersGrid"></div>
+            <div class="group-label">🃏 Колода</div>
+            <div class="chip-grid cols-3" id="deckGrid"></div>
+            <div class="group-label">🔄 Ход <span class="hint">(можно оба)</span></div>
+            <div class="chip-grid cols-3" id="moveGrid"></div>
+            <div class="group-label">🃏 Подкидывают</div>
+            <div class="chip-grid cols-2" id="throwGrid"></div>
+            <div class="group-label">🎲 Честность</div>
+            <div class="chip-grid cols-2" id="fairGrid"></div>
+            <div class="group-label">🏁 Окончание</div>
+            <div class="chip-grid cols-2" id="endGrid"></div>
+            <div class="summary-box">
+                <div class="summary-row"><span class="key">Ставка</span><span class="val accent" id="sumBet">—</span></div>
+                <div class="summary-row"><span class="key">Игроков</span><span class="val" id="sumPlayers">—</span></div>
+                <div class="summary-row"><span class="key">Колода</span><span class="val" id="sumDeck">—</span></div>
+                <div class="summary-row"><span class="key">Ход</span><span class="val" id="sumMove">—</span></div>
+                <div class="summary-row"><span class="key">Подкидывают</span><span class="val" id="sumThrow">—</span></div>
+                <div class="summary-row"><span class="key">Честность</span><span class="val" id="sumFair">—</span></div>
+                <div class="summary-row"><span class="key">Окончание</span><span class="val" id="sumEnd">—</span></div>
+                <div class="summary-row"><span class="key">Баланс</span><span class="val" id="sumBalance">—</span></div>
+            </div>
+            <button class="btn-primary" id="createGameConfirm">Создать игру</button>
+            <div class="small-note" id="createGameNote" style="text-align:center;">Выберите все параметры</div>
+        </div>
+    </div>
+
+    <div id="lobbyScreen" class="screen">
+        <div class="card" style="margin-top: 4px;">
+            <div class="lobby-header">
+                <div class="title">🎮 ЛОББИ</div>
+                <div class="subtitle" id="lobbySubtitle">Заполните стол игроками</div>
+            </div>
+            <div class="lobby-params" id="lobbyParams"></div>
+            <div class="lobby-players" id="lobbyPlayers"></div>
+            <div class="lobby-actions">
+                <div class="lobby-actions-row">
+                    <button class="btn-secondary" id="addBotsBtn">🤖 Добавить ботов</button>
+                    <button class="btn-secondary" id="removeBotsBtn">➖ Убрать</button>
+                </div>
+                <button class="btn-primary" id="startGameBtn">▶ Начать игру</button>
+                <button class="btn-secondary" id="leaveLobbyBtn" style="padding: 12px; font-size: 15px;">← Выйти из лобби</button>
+            </div>
+            <div class="bet-return-note" id="betReturnNote"></div>
+        </div>
+    </div>
+
+    <div id="gameScreen" class="screen">
+        <div class="game-top">
+            <div class="info-block"><span class="info-label">Ставка</span><span class="info-value accent" id="gBet">—</span></div>
+            <div class="info-block"><span class="info-label">Козырь</span><span class="info-value" id="gTrump">—</span></div>
+            <div class="info-block"><span class="info-label">Колода</span><span class="info-value" id="gDeck">—</span></div>
+            <div class="info-block"><span class="info-label">Ход</span><span class="info-value" id="gTurn">—</span></div>
+            <div class="info-block" style="text-align:right;"><span class="info-label">Ваш ход</span><span class="info-value accent" id="gMyTurn">—</span></div>
+        </div>
+        <div class="timer-bar"><div class="timer-fill" id="timerFill"></div></div>
+        <div class="players-info" id="playersInfo"></div>
+        <div class="table-area">
+            <div class="deck-col">
+                <div class="deck-count" id="deckCount">0</div>
+                <div class="deck-trump" id="deckTrump">—</div>
+            </div>
+            <div class="center-table" id="centerTable"></div>
+            <div class="beat-col">
+                <div class="beat-icon">🗑</div>
+                <div class="beat-label">Отбой</div>
+            </div>
+        </div>
+        <div class="hand-area">
+            <div class="hand-label" id="handLabel">Ваша рука — зажмите и перетащите карту</div>
+            <div class="hand" id="hand"></div>
+            <div class="game-controls" id="gameControls"></div>
+        </div>
+    </div>
+
+    <div id="resultScreen" class="screen">
+        <div class="card">
+            <div class="result-box">
+                <div class="result-icon" id="resultIcon">🏆</div>
+                <div class="result-title" id="resultTitle">Победа!</div>
+                <div class="result-text" id="resultText"></div>
+                <div class="prize" id="resultPrize"></div>
+                <button class="btn-primary" id="resultOk" style="margin-top: 16px;">В главное меню</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal">
+        <h3>🚪 Выход</h3>
+        <p>Выйти из аккаунта?</p>
+        <div class="modal-buttons">
+            <button class="btn-primary btn-danger" id="logoutYes">Да</button>
+            <button class="btn-secondary" id="logoutNo">Нет</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="nickModal">
+    <div class="modal">
+        <h3>✏️ Смена никнейма</h3>
+        <p>Введите новый никнейм (3–16 символов).</p>
+        <input type="text" id="newNickInput" maxlength="16" placeholder="Новый никнейм" autocomplete="off">
+        <div class="modal-buttons">
+            <button class="btn-primary" id="nickSaveBtn">Сохранить</button>
+            <button class="btn-secondary" id="nickCancelBtn">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="removeFriendModal">
+    <div class="modal">
+        <h3>🗑 Удалить друга?</h3>
+        <p id="removeFriendText">Удалить?</p>
+        <div class="modal-buttons">
+            <button class="btn-primary btn-danger" id="removeFriendYes">Да</button>
+            <button class="btn-secondary" id="removeFriendNo">Нет</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="exitGameModal">
+    <div class="modal">
+        <h3>🚪 Покинуть игру?</h3>
+        <p>Вы автоматически <b>проиграете</b>, а ставка уйдёт другим игрокам.</p>
+        <div class="exit-warn" id="exitWarnText"></div>
+        <div class="modal-buttons" style="margin-top: 16px;">
+            <button class="btn-primary btn-danger" id="exitGameYes">Выйти</button>
+            <button class="btn-secondary" id="exitGameNo">Остаться</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+
+const STORAGE_USERS = 'durak_users';
+const STORAGE_CURRENT = 'durak_current_user';
+const STORAGE_SETTINGS = 'durak_settings';
+const STORAGE_SOCIAL = 'durak_social';
+
+function getUsers() { try { const r = localStorage.getItem(STORAGE_USERS); return r ? JSON.parse(r) : {}; } catch(e){ return {}; } }
+function saveUsers(u) { localStorage.setItem(STORAGE_USERS, JSON.stringify(u)); }
+function getCurrentNick() { return localStorage.getItem(STORAGE_CURRENT); }
+function setCurrentNick(n) { localStorage.setItem(STORAGE_CURRENT, n); }
+function clearCurrentNick() { localStorage.removeItem(STORAGE_CURRENT); }
+
+function getSettings() {
+    try {
+        const r = localStorage.getItem(STORAGE_SETTINGS);
+        if (r) {
+            const s = JSON.parse(r);
+            return { sounds: s.sounds !== undefined ? s.sounds : true, layout: s.layout || 'suits', lang: s.lang || 'ru', theme: s.theme || 'dark' };
+        }
+    } catch(e) {}
+    return { sounds: true, layout: 'suits', lang: 'ru', theme: 'dark' };
+}
+function saveSettings(s) { localStorage.setItem(STORAGE_SETTINGS, JSON.stringify(s)); }
+
+function getSocial() { try { const r = localStorage.getItem(STORAGE_SOCIAL); return r ? JSON.parse(r) : {}; } catch(e){ return {}; } }
+function saveSocial(s) { localStorage.setItem(STORAGE_SOCIAL, JSON.stringify(s)); }
+function getSocialProfile(n) {
+    const s = getSocial();
+    if (!s[n]) { s[n] = { friends: [], incoming: [], outgoing: [] }; saveSocial(s); }
+    return s[n];
+}
+function ensureSocialProfile(n) {
+    const s = getSocial();
+    if (!s[n]) { s[n] = { friends: [], incoming: [], outgoing: [] }; saveSocial(s); }
+}
+
+let audioCtx = null;
+function ensureAudio() {
+    if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){ return null; } }
+    if (audioCtx.state === 'suspended') audioCtx.resume().catch(()=>{});
+    return audioCtx;
+}
+function playTone(f, d, t='sine', v=0.15, delay=0) {
+    if (!settings.sounds) return;
+    const ctx = ensureAudio(); if (!ctx) return;
+    const now = ctx.currentTime + delay;
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = t; o.frequency.setValueAtTime(f, now);
+    g.gain.setValueAtTime(0, now);
+    g.gain.linearRampToValueAtTime(v, now + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + d);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(now); o.stop(now + d + 0.02);
+}
+const Sound = {
+    click() { playTone(880, 0.06, 'sine', 0.12); playTone(1320, 0.04, 'sine', 0.06, 0.01); },
+    clickLow() { playTone(330, 0.09, 'triangle', 0.15); playTone(220, 0.12, 'sine', 0.10, 0.02); },
+    clickSoft() { playTone(660, 0.06, 'sine', 0.10); },
+    coins() { playTone(1046, 0.10, 'sine', 0.12); playTone(1568, 0.12, 'sine', 0.10, 0.06); playTone(2093, 0.16, 'sine', 0.08, 0.12); },
+    reward() { playTone(523, 0.20, 'sine', 0.10); playTone(659, 0.20, 'sine', 0.10, 0.08); playTone(784, 0.28, 'sine', 0.12, 0.16); playTone(1046, 0.40, 'sine', 0.10, 0.28); },
+    error() { playTone(180, 0.18, 'sawtooth', 0.10); playTone(140, 0.22, 'sawtooth', 0.10, 0.05); },
+    trump() { playTone(659, 0.10, 'triangle', 0.10); playTone(880, 0.14, 'triangle', 0.10, 0.05); },
+    toggleOn() { playTone(660, 0.06, 'sine', 0.10); playTone(990, 0.08, 'sine', 0.10, 0.04); },
+    toggleOff() { playTone(660, 0.06, 'sine', 0.10); playTone(440, 0.08, 'sine', 0.10, 0.04); },
+    success() { playTone(659, 0.10, 'sine', 0.10); playTone(880, 0.12, 'sine', 0.10, 0.06); playTone(1174, 0.16, 'sine', 0.08, 0.14); },
+    cardPlay() { playTone(440, 0.06, 'triangle', 0.12); playTone(330, 0.08, 'sine', 0.10, 0.02); },
+    cardTake() { playTone(300, 0.10, 'sawtooth', 0.08); playTone(250, 0.12, 'sawtooth', 0.08, 0.05); },
+    cheatCaught() { playTone(220, 0.15, 'sawtooth', 0.15); playTone(180, 0.20, 'sawtooth', 0.15, 0.08); playTone(140, 0.25, 'sawtooth', 0.15, 0.16); }
+};
+
+let currentUser = null;
+let settings = getSettings();
+
+const screens = {
+    auth: document.getElementById('authScreen'),
+    login: document.getElementById('loginScreen'),
+    mainMenu: document.getElementById('mainMenuScreen'),
+    profile: document.getElementById('profileScreen'),
+    ad: document.getElementById('adScreen'),
+    settings: document.getElementById('settingsScreen'),
+    friends: document.getElementById('friendsScreen'),
+    createGame: document.getElementById('createGameScreen'),
+    lobby: document.getElementById('lobbyScreen'),
+    game: document.getElementById('gameScreen'),
+    result: document.getElementById('resultScreen')
+};
+
+function showScreen(name) {
+    if (name !== 'ad') resetAdState();
+    for (const k in screens) if (screens[k]) screens[k].classList.remove('active');
+    if (screens[name]) {
+        screens[name].classList.add('active');
+        screens[name].scrollTop = 0;
+    }
+    if (name === 'settings') renderSettings();
+    if (name === 'friends') renderFriendsScreen();
+    if (name === 'createGame') renderCreateGame();
+}
+
+function refreshUserUI() {
+    if (!currentUser) return;
+    document.getElementById('menuNickname').textContent = currentUser.nickname;
+    document.getElementById('menuCredits').textContent = currentUser.credits.toLocaleString();
+    document.getElementById('profileNickname').textContent = currentUser.nickname;
+    document.getElementById('profileCredits').textContent = currentUser.credits.toLocaleString();
+    updateFriendsBadge();
+    updateAdButtonState();
+}
+
+function loadCurrentUser() {
+    const n = getCurrentNick(); if (!n) return false;
+    const users = getUsers();
+    if (users[n]) { currentUser = users[n]; refreshUserUI(); return true; }
+    clearCurrentNick(); return false;
+}
+
+function registerUser(n, p) {
+    const u = getUsers();
+    if (u[n]) return { error: 'Никнейм занят' };
+    u[n] = { nickname: n, password: p, credits: 9999, isGoogle: false };
+    saveUsers(u); setCurrentNick(n); currentUser = u[n];
+    ensureSocialProfile(n); refreshUserUI();
+    return { success: true };
+}
+function loginUser(n, p) {
+    const u = getUsers(); const user = u[n];
+    if (!user) return { error: 'Пользователь не найден' };
+    if (user.isGoogle) return { error: 'Войдите через Google' };
+    if (user.password !== p) return { error: 'Неверный пароль' };
+    setCurrentNick(n); currentUser = user;
+    ensureSocialProfile(n); refreshUserUI();
+    return { success: true };
+}
+function googleLogin() {
+    const u = getUsers();
+    let n; do { n = 'Google_' + Math.floor(1000 + Math.random()*9000); } while (u[n]);
+    u[n] = { nickname: n, password: null, credits: 9999, isGoogle: true };
+    saveUsers(u); setCurrentNick(n); currentUser = u[n];
+    ensureSocialProfile(n); refreshUserUI(); showScreen('mainMenu');
+}
+
+let toastTimeout = null;
+function showToast(msg, isError, isSuccess) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.remove('error', 'success');
+    if (isError) t.classList.add('error');
+    else if (isSuccess) t.classList.add('success');
+    t.classList.add('show');
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+const AD_MAX = 1500;
+function canWatchAd() { return currentUser && currentUser.credits < AD_MAX; }
+function updateAdButtonState() {
+    [document.getElementById('menuPlusBtn'), document.getElementById('profilePlusBtn')].forEach(b => {
+        if (!b) return;
+        if (canWatchAd()) { b.classList.remove('disabled'); b.title = 'Получить кредиты'; }
+        else { b.classList.add('disabled'); b.title = 'Только при балансе < 1500'; }
+    });
+}
+
+let adInterval = null, adSecondsLeft = 0, adWatched = false;
+const adTimerEl = document.getElementById('adTimer');
+const watchAdBtn = document.getElementById('watchAdBtn');
+const fakeAdText = document.getElementById('fakeAdText');
+
+function resetAdState() {
+    if (adInterval) { clearInterval(adInterval); adInterval = null; }
+    adSecondsLeft = 0; adWatched = false;
+    if (adTimerEl) adTimerEl.textContent = 'Нажмите кнопку ниже';
+    if (watchAdBtn) { watchAdBtn.disabled = false; watchAdBtn.textContent = 'Смотреть рекламу (5 сек)'; watchAdBtn.style.opacity = '1'; }
+    if (fakeAdText) fakeAdText.textContent = 'Реклама: играй в Дурак Онлайн!';
+}
+function goToAd() {
+    if (!currentUser) return;
+    if (!canWatchAd()) { Sound.error(); showToast('Только при балансе меньше 1500', true); return; }
+    resetAdState(); showScreen('ad');
+}
+
+const soundToggle = document.getElementById('soundToggle');
+const soundHint = document.getElementById('soundHint');
+const layoutToggle = document.getElementById('layoutToggle');
+const layoutModeLabel = document.getElementById('layoutModeLabel');
+const layoutPreview = document.getElementById('layoutPreview');
+const logoutBtn = document.getElementById('logoutBtn');
+const logoutModal = document.getElementById('logoutModal');
+const langToggle = document.getElementById('langToggle');
+const langLabel = document.getElementById('langLabel');
+const themeToggle = document.getElementById('themeToggle');
+const themeLabel = document.getElementById('themeLabel');
+const changeNickBtn = document.getElementById('changeNickBtn');
+const nickModal = document.getElementById('nickModal');
+
+const LANGS = ['ru', 'en'];
+const LANG_NAMES = { ru: 'Русский', en: 'English' };
+const THEMES = ['dark', 'light', 'emerald', 'night'];
+const THEME_NAMES = { dark: 'Тёмная', light: 'Светлая', emerald: 'Изумрудная', night: 'Ночь' };
+
+function renderLayoutPreview() {
+    if (settings.layout === 'suits') {
+        layoutPreview.innerHTML = '♠ 6 7 8 9 10 В Д К Т · ♥ … · ♦ … · ♣ …';
+    } else {
+        const ranks = ['6','7','8','9','10','В','Д','К','Т'];
+        layoutPreview.innerHTML = ranks.map(r => r + ' <span class="trump">' + r + '♠</span>').join(' · ');
+    }
+}
+function renderSettings() {
+    soundToggle.classList.toggle('on', settings.sounds);
+    soundHint.textContent = settings.sounds ? 'Включены' : 'Выключены';
+    layoutModeLabel.textContent = settings.layout === 'suits' ? 'По мастям' : 'По возрастанию';
+    renderLayoutPreview();
+    langLabel.textContent = LANG_NAMES[settings.lang];
+    themeLabel.textContent = THEME_NAMES[settings.theme];
+}
+
+soundToggle.addEventListener('click', () => {
+    settings.sounds = !settings.sounds; saveSettings(settings);
+    if (settings.sounds) Sound.toggleOn();
+    else { const w = settings.sounds; settings.sounds = true; Sound.toggleOff(); settings.sounds = w; }
+    renderSettings();
+});
+layoutToggle.addEventListener('click', () => {
+    settings.layout = settings.layout === 'suits' ? 'ranks' : 'suits';
+    saveSettings(settings); Sound.trump(); renderSettings();
+});
+langToggle.addEventListener('click', () => {
+    const i = LANGS.indexOf(settings.lang);
+    settings.lang = LANGS[(i + 1) % LANGS.length];
+    saveSettings(settings); renderSettings(); Sound.click();
+});
+themeToggle.addEventListener('click', () => {
+    const i = THEMES.indexOf(settings.theme);
+    settings.theme = THEMES[(i + 1) % THEMES.length];
+    saveSettings(settings); document.body.className = 'theme-' + settings.theme;
+    renderSettings(); Sound.trump();
+});
+
+const newNickInput = document.getElementById('newNickInput');
+changeNickBtn.addEventListener('click', () => {
+    Sound.click(); newNickInput.value = currentUser ? currentUser.nickname : '';
+    nickModal.classList.add('active');
+    setTimeout(() => newNickInput.focus(), 50);
+});
+document.getElementById('nickCancelBtn').addEventListener('click', () => {
+    Sound.clickSoft(); nickModal.classList.remove('active');
+});
+document.getElementById('nickSaveBtn').addEventListener('click', () => {
+    if (!currentUser) return;
+    const nn = newNickInput.value.trim();
+    if (!nn) { Sound.error(); alert('Введите никнейм'); return; }
+    if (nn.length < 3) { Sound.error(); alert('Минимум 3 символа'); return; }
+    if (nn.length > 16) { Sound.error(); alert('Максимум 16'); return; }
+    if (nn === currentUser.nickname) { nickModal.classList.remove('active'); return; }
+    const u = getUsers();
+    if (u[nn]) { Sound.error(); alert('Никнейм занят'); return; }
+    const old = currentUser.nickname;
+    u[nn] = { ...u[old], nickname: nn }; delete u[old]; saveUsers(u);
+    const s = getSocial();
+    if (s[old]) { s[nn] = s[old]; delete s[old]; } else { s[nn] = { friends: [], incoming: [], outgoing: [] }; }
+    for (const k in s) {
+        ['friends','incoming','outgoing'].forEach(key => {
+            const arr = s[k][key];
+            if (arr && arr.indexOf(old) !== -1) arr[arr.indexOf(old)] = nn;
+        });
+    }
+    saveSocial(s);
+    setCurrentNick(nn); currentUser = u[nn];
+    refreshUserUI(); nickModal.classList.remove('active');
+    Sound.reward(); showToast('Никнейм изменён');
+});
+nickModal.addEventListener('click', e => { if (e.target === nickModal) { Sound.clickSoft(); nickModal.classList.remove('active'); }});
+newNickInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('nickSaveBtn').click();
+    if (e.key === 'Escape') document.getElementById('nickCancelBtn').click();
+});
+
+logoutBtn.addEventListener('click', () => { Sound.click(); logoutModal.classList.add('active'); });
+document.getElementById('logoutNo').addEventListener('click', () => { Sound.clickSoft(); logoutModal.classList.remove('active'); });
+document.getElementById('logoutYes').addEventListener('click', () => {
+    Sound.clickLow(); logoutModal.classList.remove('active');
+    clearCurrentNick(); currentUser = null;
+    document.getElementById('nicknameInput').value = '';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('loginNickname').value = '';
+    document.getElementById('loginPassword').value = '';
+    showScreen('auth');
+});
+logoutModal.addEventListener('click', e => { if (e.target === logoutModal) { Sound.clickSoft(); logoutModal.classList.remove('active'); }});
+
+document.getElementById('googleAuthBtn').addEventListener('click', googleLogin);
+document.getElementById('registerBtn').addEventListener('click', () => {
+    const n = document.getElementById('nicknameInput').value.trim();
+    const p = document.getElementById('passwordInput').value.trim();
+    if (!n) { Sound.error(); alert('Введите никнейм'); return; }
+    if (n.length < 3) { Sound.error(); alert('Минимум 3 символа'); return; }
+    if (n.length > 16) { Sound.error(); alert('Максимум 16'); return; }
+    if (!p) { Sound.error(); alert('Введите пароль'); return; }
+    if (p.length < 3) { Sound.error(); alert('Пароль минимум 3'); return; }
+    const r = registerUser(n, p);
+    if (r.error) { Sound.error(); alert(r.error); return; }
+    document.getElementById('nicknameInput').value = '';
+    document.getElementById('passwordInput').value = '';
+    showScreen('mainMenu');
+});
+document.getElementById('showLoginLink').addEventListener('click', () => showScreen('login'));
+document.getElementById('showRegisterLink').addEventListener('click', () => showScreen('auth'));
+document.getElementById('backToAuthFromLogin').addEventListener('click', () => showScreen('auth'));
+document.getElementById('loginBtn').addEventListener('click', () => {
+    const n = document.getElementById('loginNickname').value.trim();
+    const p = document.getElementById('loginPassword').value.trim();
+    if (!n || !p) { Sound.error(); alert('Заполните поля'); return; }
+    const r = loginUser(n, p);
+    if (r.error) { Sound.error(); alert(r.error); return; }
+    document.getElementById('loginNickname').value = '';
+    document.getElementById('loginPassword').value = '';
+    showScreen('mainMenu');
+});
+
+document.getElementById('btnProfile').addEventListener('click', () => { if (!currentUser) return; refreshUserUI(); showScreen('profile'); });
+document.getElementById('btnSettings').addEventListener('click', () => showScreen('settings'));
+document.getElementById('btnFriends').addEventListener('click', () => showScreen('friends'));
+document.getElementById('btnCreateGame').addEventListener('click', () => showScreen('createGame'));
+document.getElementById('profileBackBtn').addEventListener('click', () => { refreshUserUI(); showScreen('mainMenu'); });
+document.getElementById('settingsBackBtn').addEventListener('click', () => showScreen('mainMenu'));
+document.getElementById('friendsBackBtn').addEventListener('click', () => showScreen('mainMenu'));
+document.getElementById('createGameBackBtn').addEventListener('click', () => showScreen('mainMenu'));
+document.getElementById('adBackBtn').addEventListener('click', () => { refreshUserUI(); showScreen('profile'); });
+document.getElementById('menuPlusBtn').addEventListener('click', goToAd);
+document.getElementById('profilePlusBtn').addEventListener('click', goToAd);
+
+watchAdBtn.addEventListener('click', () => {
+    if (!currentUser) return;
+    if (!canWatchAd()) { Sound.error(); showToast('Баланс 1500+ — реклама недоступна', true); return; }
+    if (adWatched) { Sound.error(); showToast('Уже получено', true); return; }
+    if (adInterval) return;
+    watchAdBtn.disabled = true; watchAdBtn.textContent = 'Просмотр...';
+    adSecondsLeft = 5; adTimerEl.textContent = 'Осталось: 5 сек.';
+    adInterval = setInterval(() => {
+        adSecondsLeft--;
+        if (adSecondsLeft <= 0) {
+            clearInterval(adInterval); adInterval = null;
+            if (!adWatched && currentUser) {
+                adWatched = true;
+                const u = getUsers();
+                if (u[currentUser.nickname]) {
+                    u[currentUser.nickname].credits += 1499;
+                    saveUsers(u); currentUser.credits += 1499;
+                    refreshUserUI();
+                    adTimerEl.textContent = '✅ Получено 1499 кредитов!';
+                    watchAdBtn.textContent = 'Получено';
+                    watchAdBtn.disabled = true; watchAdBtn.style.opacity = '0.7';
+                    fakeAdText.textContent = 'Спасибо за просмотр!';
+                    Sound.reward();
+                }
+            }
+        } else adTimerEl.textContent = 'Осталось: ' + adSecondsLeft + ' сек.';
+    }, 1000);
+});
+
+const BETS = [100,250,500,1000,2500,5000,10000,25000,50000,100000,250000,500000,1000000,2500000,5000000,10000000];
+const PLAYERS_OPTS = [2,3,4,5,6];
+const DECKS = [
+    { cards: 24, label: '24', sub: '9-Т', ranks: ['9','10','В','Д','К','Т'] },
+    { cards: 36, label: '36', sub: '6-Т', ranks: ['6','7','8','9','10','В','Д','К','Т'] },
+    { cards: 52, label: '52', sub: '2-Т', ranks: ['2','3','4','5','6','7','8','9','10','В','Д','К','Т'] }
+];
+const MOVE_OPTS = [
+    { id: 'podkidnoy', icon: '🃏', name: 'Подкидной', desc: 'подкидывать, не переводить' },
+    { id: 'perevodnoy', icon: '🔄', name: 'Переводной', desc: 'переводить на след. игрока' }
+];
+const THROW_OPTS = [
+    { id: 'all', icon: '👥', name: 'Все', desc: 'любой игрок' },
+    { id: 'neighbors', icon: '↔️', name: 'Соседи', desc: 'только соседи' }
+];
+const FAIR_OPTS = [
+    { id: 'fair', icon: '✅', name: 'Честная', desc: 'обычная колода' },
+    { id: 'shuler', icon: '🎩', name: 'С шулером', desc: 'карты могут быть нечестными' }
+];
+const END_OPTS = [
+    { id: 'classic', icon: '🏁', name: 'Классика', desc: 'один дурак' },
+    { id: 'draw', icon: '🤝', name: 'Ничья', desc: 'у всех кончилось — ничья' }
+];
+
+let gameConfig = { bet: null, players: 2, deck: 36, move: [], throw: 'all', fair: 'fair', end: 'classic' };
+let betEscrow = 0;
+let lobbyBots = [];
+
+function formatMoney(n) {
+    if (n >= 1000000) { const m = n / 1000000; return (m % 1 === 0 ? m : m.toFixed(1)) + 'М'; }
+    if (n >= 1000) { const k = n / 1000; return (k % 1 === 0 ? k : k.toFixed(1)) + 'К'; }
+    return String(n);
+}
+
+function renderCreateGame() {
+    if (gameConfig.bet === null && currentUser) {
+        const av = BETS.find(b => b <= currentUser.credits);
+        gameConfig.bet = av !== undefined ? av : null;
+    }
+    const bg = document.getElementById('betGrid'); bg.innerHTML = '';
+    BETS.forEach(b => {
+        const c = document.createElement('div');
+        c.className = 'chip';
+        const aff = currentUser && b <= currentUser.credits;
+        if (!aff) c.classList.add('disabled');
+        if (gameConfig.bet === b) c.classList.add('active');
+        c.innerHTML = formatMoney(b) + '<span class="sub">' + b.toLocaleString() + '</span>';
+        c.addEventListener('click', () => {
+            if (!aff) { Sound.error(); showToast('Недостаточно кредитов', true); return; }
+            gameConfig.bet = b; Sound.click(); renderCreateGame();
+        });
+        bg.appendChild(c);
+    });
+    const pg = document.getElementById('playersGrid'); pg.innerHTML = '';
+    PLAYERS_OPTS.forEach(p => {
+        const c = document.createElement('div');
+        c.className = 'chip' + (gameConfig.players === p ? ' active' : '');
+        c.textContent = p;
+        c.addEventListener('click', () => { gameConfig.players = p; Sound.click(); renderCreateGame(); });
+        pg.appendChild(c);
+    });
+    const dg = document.getElementById('deckGrid'); dg.innerHTML = '';
+    DECKS.forEach(d => {
+        const c = document.createElement('div');
+        c.className = 'chip' + (gameConfig.deck === d.cards ? ' active' : '');
+        c.innerHTML = d.label + '<span class="sub">' + d.sub + '</span>';
+        c.addEventListener('click', () => { gameConfig.deck = d.cards; Sound.click(); renderCreateGame(); });
+        dg.appendChild(c);
+    });
+    const mg = document.getElementById('moveGrid'); mg.innerHTML = '';
+    MOVE_OPTS.forEach(m => {
+        const b = document.createElement('div');
+        b.className = 'mod-btn' + (gameConfig.move.indexOf(m.id) !== -1 ? ' active' : '');
+        b.innerHTML = '<div class="mod-icon">' + m.icon + '</div><div class="mod-name">' + m.name + '</div><div class="mod-desc">' + m.desc + '</div>';
+        b.addEventListener('click', () => {
+            const i = gameConfig.move.indexOf(m.id);
+            if (i === -1) gameConfig.move.push(m.id); else gameConfig.move.splice(i, 1);
+            Sound.click(); renderCreateGame();
+        });
+        mg.appendChild(b);
+    });
+    const tg = document.getElementById('throwGrid'); tg.innerHTML = '';
+    THROW_OPTS.forEach(o => {
+        const b = document.createElement('div');
+        b.className = 'mod-btn' + (gameConfig.throw === o.id ? ' active' : '');
+        b.innerHTML = '<div class="mod-icon">' + o.icon + '</div><div class="mod-name">' + o.name + '</div><div class="mod-desc">' + o.desc + '</div>';
+        b.addEventListener('click', () => { gameConfig.throw = o.id; Sound.click(); renderCreateGame(); });
+        tg.appendChild(b);
+    });
+    const fg = document.getElementById('fairGrid'); fg.innerHTML = '';
+    FAIR_OPTS.forEach(o => {
+        const b = document.createElement('div');
+        b.className = 'mod-btn' + (gameConfig.fair === o.id ? ' active' : '');
+        b.innerHTML = '<div class="mod-icon">' + o.icon + '</div><div class="mod-name">' + o.name + '</div><div class="mod-desc">' + o.desc + '</div>';
+        b.addEventListener('click', () => { gameConfig.fair = o.id; Sound.click(); renderCreateGame(); });
+        fg.appendChild(b);
+    });
+    const eg = document.getElementById('endGrid'); eg.innerHTML = '';
+    END_OPTS.forEach(o => {
+        const b = document.createElement('div');
+        b.className = 'mod-btn' + (gameConfig.end === o.id ? ' active' : '');
+        b.innerHTML = '<div class="mod-icon">' + o.icon + '</div><div class="mod-name">' + o.name + '</div><div class="mod-desc">' + o.desc + '</div>';
+        b.addEventListener('click', () => { gameConfig.end = o.id; Sound.click(); renderCreateGame(); });
+        eg.appendChild(b);
+    });
+    document.getElementById('sumBet').textContent = gameConfig.bet ? gameConfig.bet.toLocaleString() : '—';
+    document.getElementById('sumPlayers').textContent = gameConfig.players;
+    document.getElementById('sumDeck').textContent = gameConfig.deck + ' карт';
+    document.getElementById('sumMove').textContent = gameConfig.move.length === 0 ? 'Классика' : gameConfig.move.map(id => MOVE_OPTS.find(m => m.id === id).name).join(' + ');
+    document.getElementById('sumThrow').textContent = THROW_OPTS.find(o => o.id === gameConfig.throw).name;
+    document.getElementById('sumFair').textContent = FAIR_OPTS.find(o => o.id === gameConfig.fair).name;
+    document.getElementById('sumEnd').textContent = END_OPTS.find(o => o.id === gameConfig.end).name;
+    document.getElementById('sumBalance').textContent = currentUser ? currentUser.credits.toLocaleString() : '—';
+
+    const cb = document.getElementById('createGameConfirm');
+    const note = document.getElementById('createGameNote');
+    if (!gameConfig.bet) { cb.disabled = true; note.textContent = 'Выберите ставку'; note.style.color = 'var(--text-muted)'; }
+    else if (currentUser && currentUser.credits < gameConfig.bet) { cb.disabled = true; note.textContent = 'Недостаточно кредитов'; note.style.color = '#d94a4a'; }
+    else { cb.disabled = false; note.textContent = 'Будет списано ' + gameConfig.bet.toLocaleString() + ' кр.'; note.style.color = 'var(--accent)'; }
+}
+
+document.getElementById('createGameConfirm').addEventListener('click', () => {
+    if (!currentUser || !gameConfig.bet) return;
+    if (currentUser.credits < gameConfig.bet) { Sound.error(); showToast('Недостаточно кредитов', true); return; }
+    const u = getUsers();
+    u[currentUser.nickname].credits -= gameConfig.bet;
+    saveUsers(u); currentUser.credits -= gameConfig.bet;
+    betEscrow = gameConfig.bet;
+    lobbyBots = [];
+    refreshUserUI();
+    Sound.success();
+    showToast('Игра создана! Списано ' + betEscrow.toLocaleString());
+    renderLobby(); showScreen('lobby');
+});
+
+function renderLobby() {
+    const params = document.getElementById('lobbyParams'); params.innerHTML = '';
+    const rows = [
+        ['💰 Ставка', gameConfig.bet ? gameConfig.bet.toLocaleString() + ' кр.' : '—', true],
+        ['👥 Игроков', gameConfig.players + ' (всего)', false],
+        ['🃏 Колода', gameConfig.deck + ' карт', false],
+        ['🔄 Ход', gameConfig.move.length === 0 ? 'Классика' : gameConfig.move.map(id => MOVE_OPTS.find(m => m.id === id).name).join(' + '), false],
+        ['🃏 Подкидывают', THROW_OPTS.find(o => o.id === gameConfig.throw).name, false],
+        ['🎲 Честность', FAIR_OPTS.find(o => o.id === gameConfig.fair).name, false],
+        ['🏁 Окончание', END_OPTS.find(o => o.id === gameConfig.end).name, false]
+    ];
+    rows.forEach(([k, v, a]) => {
+        const r = document.createElement('div'); r.className = 'lp-row';
+        const kEl = document.createElement('span'); kEl.className = 'lp-key'; kEl.textContent = k;
+        const vEl = document.createElement('span'); vEl.className = 'lp-val' + (a ? ' accent' : ''); vEl.textContent = v;
+        r.appendChild(kEl); r.appendChild(vEl); params.appendChild(r);
+    });
+    const pb = document.getElementById('lobbyPlayers'); pb.innerHTML = '';
+    for (let i = 0; i < gameConfig.players; i++) {
+        const s = document.createElement('div'); s.className = 'player-slot';
+        if (i === 0 && currentUser) {
+            s.classList.add('filled');
+            const av = document.createElement('div'); av.className = 'p-avatar';
+            av.style.background = 'linear-gradient(135deg, #4a7a5a, #2a4a35)';
+            av.textContent = currentUser.nickname.charAt(0).toUpperCase();
+            const nm = document.createElement('div'); nm.className = 'p-name'; nm.textContent = currentUser.nickname;
+            const rl = document.createElement('div'); rl.className = 'p-role'; rl.textContent = 'ХОСТ';
+            s.appendChild(av); s.appendChild(nm); s.appendChild(rl);
+        } else if (lobbyBots[i - 1]) {
+            s.classList.add('filled', 'bot-filled');
+            const av = document.createElement('div'); av.className = 'p-avatar';
+            av.style.background = 'linear-gradient(135deg, #4a5a8a, #2a3a5a)';
+            av.textContent = '🤖';
+            const nm = document.createElement('div'); nm.className = 'p-name'; nm.textContent = lobbyBots[i - 1];
+            const rl = document.createElement('div'); rl.className = 'p-role'; rl.textContent = 'БОТ';
+            s.appendChild(av); s.appendChild(nm); s.appendChild(rl);
+        } else {
+            const w = document.createElement('div'); w.className = 'p-wait'; w.textContent = '⏳';
+            const n = document.createElement('div'); n.style.color = 'var(--text-muted)'; n.style.fontSize = '10px';
+            n.textContent = 'Свободно';
+            s.appendChild(w); s.appendChild(n);
+        }
+        pb.appendChild(s);
+    }
+    const totalPlayers = 1 + lobbyBots.length;
+    const subtitle = document.getElementById('lobbySubtitle');
+    if (totalPlayers < 2) {
+        subtitle.textContent = '🤖 Добавьте ботов или нажмите «Начать»';
+        subtitle.style.color = 'var(--accent)';
+    } else if (totalPlayers < gameConfig.players) {
+        subtitle.textContent = 'Игроков за столом: ' + totalPlayers + ' из ' + gameConfig.players;
+        subtitle.style.color = 'var(--text-muted)';
+    } else {
+        subtitle.textContent = '✅ Стол полон! Можно начинать';
+        subtitle.style.color = 'var(--accent)';
+    }
+    document.getElementById('betReturnNote').textContent = betEscrow > 0 ? 'Заморожено: ' + betEscrow.toLocaleString() + ' кр.' : '';
+    document.getElementById('removeBotsBtn').disabled = lobbyBots.length === 0;
+}
+
+document.getElementById('addBotsBtn').addEventListener('click', () => {
+    const maxBots = gameConfig.players - 1;
+    if (lobbyBots.length >= maxBots) { Sound.error(); showToast('Стол уже полон', true); return; }
+    const botNames = ['Алекс', 'Мария', 'Пётр', 'Ольга', 'Иван', 'Николай', 'Елена', 'Сергей'];
+    const usedNames = lobbyBots.slice();
+    while (lobbyBots.length < maxBots) {
+        let n;
+        do { n = botNames[Math.floor(Math.random() * botNames.length)] + '_' + Math.floor(Math.random() * 100); }
+        while (usedNames.indexOf(n) !== -1);
+        usedNames.push(n); lobbyBots.push(n);
+    }
+    Sound.success(); showToast('🤖 Добавлено ботов: ' + lobbyBots.length); renderLobby();
+});
+
+document.getElementById('removeBotsBtn').addEventListener('click', () => {
+    if (lobbyBots.length === 0) return;
+    lobbyBots = []; Sound.clickSoft(); showToast('Боты убраны'); renderLobby();
+});
+
+document.getElementById('startGameBtn').addEventListener('click', () => {
+    const maxBots = gameConfig.players - 1;
+    if (lobbyBots.length === 0) {
+        const botNames = ['Алекс', 'Мария', 'Пётр', 'Ольга', 'Иван'];
+        for (let i = 0; i < maxBots; i++) {
+            let n;
+            do { n = botNames[Math.floor(Math.random() * botNames.length)] + '_' + Math.floor(Math.random() * 100); }
+            while (lobbyBots.indexOf(n) !== -1);
+            lobbyBots.push(n);
+        }
+        showToast('🤖 Свободные слоты заполнены ботами');
+    }
+    Sound.reward(); startGame();
+});
+
+document.getElementById('leaveLobbyBtn').addEventListener('click', () => {
+    if (!currentUser) return;
+    if (betEscrow > 0) {
+        const u = getUsers();
+        if (u[currentUser.nickname]) {
+            u[currentUser.nickname].credits += betEscrow;
+            saveUsers(u); currentUser.credits += betEscrow;
+            showToast('Возврат ' + betEscrow.toLocaleString() + ' кр.');
+            betEscrow = 0;
+        }
+    }
+    lobbyBots = [];
+    refreshUserUI(); Sound.clickSoft(); showScreen('mainMenu');
+});
+
+function getOnlineStatus(n) {
+    let h = 0; for (let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0;
+    const r = h % 10;
+    return r < 4 ? 'online' : r < 6 ? 'in-game' : 'offline';
+}
+function statusLabel(s) { return s === 'online' ? 'онлайн' : s === 'in-game' ? 'в игре' : 'офлайн'; }
+function avatarColor(n) {
+    const c = ['#4a7a5a','#7a4a4a','#4a5a7a','#7a6a4a','#6a4a7a','#4a7a7a'];
+    let h = 0; for (let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0;
+    return c[h % c.length];
+}
+function updateFriendsBadge() {
+    const b = document.getElementById('friendsBadge');
+    if (!currentUser) { b.classList.add('hidden'); return; }
+    const s = getSocialProfile(currentUser.nickname);
+    if (s.incoming.length > 0) { b.textContent = s.incoming.length > 99 ? '99+' : s.incoming.length; b.classList.remove('hidden'); }
+    else b.classList.add('hidden');
+}
+function buildPlayerCard(n, opts) {
+    opts = opts || {};
+    const users = getUsers(), u = users[n], credits = u ? u.credits : 0;
+    const status = opts.status || getOnlineStatus(n);
+    const isSelf = currentUser && currentUser.nickname === n;
+    const c = document.createElement('div'); c.className = 'friend-card';
+    const av = document.createElement('div');
+    av.className = 'friend-avatar ' + (isSelf ? '' : status);
+    av.style.background = 'linear-gradient(135deg, ' + avatarColor(n) + ', #2a3a2f)';
+    av.textContent = n.charAt(0).toUpperCase();
+    const info = document.createElement('div'); info.className = 'friend-info';
+    const nk = document.createElement('div'); nk.className = 'friend-nick'; nk.textContent = n + (isSelf ? ' (вы)' : '');
+    const meta = document.createElement('div'); meta.className = 'friend-meta';
+    const cr = document.createElement('span'); cr.className = 'credits'; cr.textContent = '💰 ' + credits.toLocaleString() + ' кр.';
+    const st = document.createElement('span'); st.textContent = statusLabel(status);
+    meta.appendChild(cr); meta.appendChild(st);
+    info.appendChild(nk); info.appendChild(meta);
+    c.appendChild(av); c.appendChild(info);
+    const ac = document.createElement('div'); ac.className = 'friend-actions';
+    opts.buttons.forEach(b => {
+        const btn = document.createElement('button');
+        btn.className = 'icon-btn ' + (b.cls || '');
+        btn.title = b.title; btn.textContent = b.icon;
+        if (b.disabled) btn.disabled = true;
+        if (b.onClick) btn.addEventListener('click', b.onClick);
+        ac.appendChild(btn);
+    });
+    c.appendChild(ac);
+    return c;
+}
+const friendSearchInput = document.getElementById('friendSearchInput');
+const searchClearBtn = document.getElementById('searchClearBtn');
+const searchResultsWrap = document.getElementById('searchResultsWrap');
+const searchResults = document.getElementById('searchResults');
+const searchResultsCount = document.getElementById('searchResultsCount');
+friendSearchInput.addEventListener('input', () => searchClearBtn.classList.toggle('visible', friendSearchInput.value.length > 0));
+searchClearBtn.addEventListener('click', () => {
+    friendSearchInput.value = ''; searchClearBtn.classList.remove('visible');
+    searchResultsWrap.style.display = 'none'; friendSearchInput.focus();
+});
+function doSearch() {
+    const q = friendSearchInput.value.trim();
+    if (!q) { Sound.error(); showToast('Введите никнейм', true); return; }
+    if (!currentUser) return;
+    const users = getUsers(), ql = q.toLowerCase();
+    const social = getSocialProfile(currentUser.nickname);
+    const m = Object.keys(users).filter(n => n.toLowerCase().includes(ql));
+    searchResults.innerHTML = '';
+    if (m.length === 0) {
+        const e = document.createElement('div'); e.className = 'empty-state';
+        e.innerHTML = '<div class="icon">🔍</div><div>Никого не найдено</div>';
+        searchResults.appendChild(e);
+    } else {
+        m.forEach(n => {
+            const isSelf = n === currentUser.nickname;
+            let b = { icon: '➕', title: 'Добавить', cls: 'primary' };
+            if (isSelf) b = { icon: '👤', title: 'Это вы', disabled: true };
+            else if (social.friends.indexOf(n) !== -1) b = { icon: '✓', title: 'Уже в друзьях', disabled: true, cls: 'primary' };
+            else if (social.outgoing.indexOf(n) !== -1) b = { icon: '⏳', title: 'Заявка отправлена', disabled: true };
+            else if (social.incoming.indexOf(n) !== -1) b = { icon: '📥', title: 'Входящая', disabled: true };
+            else b.onClick = () => sendFriendRequest(n);
+            searchResults.appendChild(buildPlayerCard(n, { buttons: [b] }));
+        });
+    }
+    searchResultsCount.textContent = '(' + m.length + ')';
+    searchResultsWrap.style.display = 'block'; Sound.click();
+}
+document.getElementById('searchBtn').addEventListener('click', doSearch);
+friendSearchInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+    if (e.key === 'Escape') searchClearBtn.click();
+});
+function sendFriendRequest(t) {
+    if (!currentUser || t === currentUser.nickname) return;
+    const s = getSocial(), me = currentUser.nickname;
+    ensureSocialProfile(me); ensureSocialProfile(t);
+    if (s[me].friends.indexOf(t) !== -1 || s[me].outgoing.indexOf(t) !== -1) { Sound.error(); showToast('Уже отправлено', true); return; }
+    s[me].outgoing.push(t); s[t].incoming.push(me);
+    saveSocial(s); Sound.success(); showToast('Заявка отправлена'); renderFriendsScreen();
+}
+function acceptFriend(f) {
+    if (!currentUser) return;
+    const s = getSocial(), me = currentUser.nickname;
+    ensureSocialProfile(me); ensureSocialProfile(f);
+    s[me].incoming = s[me].incoming.filter(n => n !== f);
+    s[f].outgoing = s[f].outgoing.filter(n => n !== me);
+    if (s[me].friends.indexOf(f) === -1) s[me].friends.push(f);
+    if (s[f].friends.indexOf(me) === -1) s[f].friends.push(me);
+    saveSocial(s); Sound.success(); showToast('Заявка принята'); renderFriendsScreen(); updateFriendsBadge();
+}
+function declineFriend(f) {
+    if (!currentUser) return;
+    const s = getSocial(), me = currentUser.nickname;
+    s[me].incoming = s[me].incoming.filter(n => n !== f);
+    s[f].outgoing = s[f].outgoing.filter(n => n !== me);
+    saveSocial(s); Sound.clickSoft(); showToast('Отклонено'); renderFriendsScreen(); updateFriendsBadge();
+}
+function cancelOutgoing(t) {
+    if (!currentUser) return;
+    const s = getSocial(), me = currentUser.nickname;
+    s[me].outgoing = s[me].outgoing.filter(n => n !== t);
+    s[t].incoming = s[t].incoming.filter(n => n !== me);
+    saveSocial(s); Sound.clickSoft(); showToast('Отменено'); renderFriendsScreen();
+}
+let pendingRemoveNick = null;
+const removeFriendModal = document.getElementById('removeFriendModal');
+const removeFriendText = document.getElementById('removeFriendText');
+function askRemoveFriend(n) {
+    pendingRemoveNick = n;
+    removeFriendText.innerHTML = 'Удалить <b>' + n + '</b> из друзей?';
+    removeFriendModal.classList.add('active');
+}
+document.getElementById('removeFriendNo').addEventListener('click', () => { Sound.clickSoft(); removeFriendModal.classList.remove('active'); pendingRemoveNick = null; });
+document.getElementById('removeFriendYes').addEventListener('click', () => {
+    if (!pendingRemoveNick || !currentUser) return;
+    const s = getSocial(), me = currentUser.nickname, o = pendingRemoveNick;
+    s[me].friends = s[me].friends.filter(n => n !== o);
+    if (s[o]) s[o].friends = s[o].friends.filter(n => n !== me);
+    saveSocial(s); removeFriendModal.classList.remove('active');
+    Sound.clickLow(); showToast('Удалён'); pendingRemoveNick = null; renderFriendsScreen();
+});
+removeFriendModal.addEventListener('click', e => {
+    if (e.target === removeFriendModal) { Sound.clickSoft(); removeFriendModal.classList.remove('active'); pendingRemoveNick = null; }
+});
+function inviteToGame(n) { Sound.click(); showToast('Приглашение: ' + n); }
+function writeMessage(n) { Sound.clickSoft(); showToast('Скоро'); }
+function renderFriendsScreen() {
+    if (!currentUser) return;
+    ensureSocialProfile(currentUser.nickname);
+    const social = getSocialProfile(currentUser.nickname);
+    const inc = document.getElementById('incomingSection'), incL = document.getElementById('incomingList'), incT = document.getElementById('incomingTitle');
+    incL.innerHTML = '';
+    if (social.incoming.length > 0) {
+        inc.style.display = 'block';
+        incT.setAttribute('data-count', social.incoming.length);
+        social.incoming.forEach(n => {
+            incL.appendChild(buildPlayerCard(n, { buttons: [
+                { icon: '✓', title: 'Принять', cls: 'primary', onClick: () => acceptFriend(n) },
+                { icon: '✕', title: 'Отклонить', cls: 'danger', onClick: () => declineFriend(n) }
+            ]}));
+        });
+    } else inc.style.display = 'none';
+    const outS = document.getElementById('outgoingSection'), outL = document.getElementById('outgoingList'), outC = document.getElementById('outgoingCount');
+    outL.innerHTML = '';
+    if (social.outgoing.length > 0) {
+        outS.style.display = 'block'; outC.textContent = '(' + social.outgoing.length + ')';
+        social.outgoing.forEach(n => {
+            outL.appendChild(buildPlayerCard(n, { buttons: [
+                { icon: '⏳', title: 'Отправлено', disabled: true },
+                { icon: '✕', title: 'Отменить', cls: 'danger', onClick: () => cancelOutgoing(n) }
+            ]}));
+        });
+    } else outS.style.display = 'none';
+    const fL = document.getElementById('friendsList'), fC = document.getElementById('friendsCount');
+    fL.innerHTML = '';
+    const order = { online: 0, 'in-game': 1, offline: 2 };
+    const sf = [...social.friends].sort((a, b) => {
+        const sa = order[getOnlineStatus(a)] ?? 3, sb = order[getOnlineStatus(b)] ?? 3;
+        if (sa !== sb) return sa - sb;
+        return a.localeCompare(b);
+    });
+    fC.textContent = '(' + social.friends.length + ')';
+    if (sf.length === 0) {
+        const e = document.createElement('div'); e.className = 'empty-state';
+        e.innerHTML = '<div class="icon">👥</div><div>Нет друзей</div>';
+        fL.appendChild(e);
+    } else {
+        sf.forEach(n => {
+            fL.appendChild(buildPlayerCard(n, { buttons: [
+                { icon: '🎮', title: 'Пригласить', cls: 'primary', onClick: () => inviteToGame(n) },
+                { icon: '💬', title: 'Написать', onClick: () => writeMessage(n) },
+                { icon: '🗑', title: 'Удалить', cls: 'danger', onClick: () => askRemoveFriend(n) }
+            ]}));
+        });
+    }
+    updateFriendsBadge();
+}
+
+const RANK_VALUES = { '2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'В':11,'Д':12,'К':13,'Т':14 };
+const SUITS = ['♠','♥','♦','♣'];
+const SUIT_NAMES = { '♠':'пики','♥':'черви','♦':'бубны','♣':'трефы' };
+
+let game = null;
+let gameTimer = null;
+let gameTimerLeft = 0;
+const GAME_TIMEOUT = 30;
+let dragState = null;
+
+function createDeck(deckSize) {
+    const deckConf = DECKS.find(d => d.cards === deckSize);
+    const ranks = deckConf.ranks;
+    const deck = [];
+    for (const s of SUITS) {
+        for (const r of ranks) {
+            deck.push({ suit: s, rank: r, value: RANK_VALUES[r] });
+        }
+    }
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    const trumpCard = deck[deck.length - 1];
+    deck.pop();
+    deck.unshift(trumpCard);
+    return deck;
+}
+
+function startGame() {
+    const players = [];
+    players.push({ name: currentUser.nickname, hand: [], isBot: false, out: false });
+    for (const botName of lobbyBots) {
+        players.push({ name: botName, hand: [], isBot: true, out: false });
+    }
+    const deck = createDeck(gameConfig.deck);
+    const trumpCard = deck[0];
+    const trumpSuit = trumpCard.suit;
+
+    for (let i = 0; i < 6; i++) {
+        for (const p of players) {
+            if (deck.length > 1) p.hand.push(deck.pop());
+        }
+    }
+
+    let firstIdx = 0;
+    let minTrumpValue = Infinity;
+    let firstInfo = '';
+    for (let i = 0; i < players.length; i++) {
+        for (const c of players[i].hand) {
+            if (c.suit === trumpSuit && c.value < minTrumpValue) {
+                minTrumpValue = c.value; firstIdx = i;
+            }
+        }
+    }
+    if (minTrumpValue === Infinity) {
+        let minValue = Infinity;
+        for (let i = 0; i < players.length; i++) {
+            for (const c of players[i].hand) {
+                if (c.value < minValue) { minValue = c.value; firstIdx = i; }
+            }
+        }
+        firstInfo = 'Козырей ни у кого нет. Первым ходит ' + players[firstIdx].name;
+    } else {
+        let trumpCardStr = '';
+        for (const c of players[firstIdx].hand) {
+            if (c.suit === trumpSuit && c.value === minTrumpValue) {
+                trumpCardStr = c.rank + c.suit; break;
+            }
+        }
+        firstInfo = 'Первым ходит ' + players[firstIdx].name + ' (младший козырь ' + trumpCardStr + ')';
+    }
+
+    game = {
+        players, deck, trumpCard, trumpSuit,
+        turn: firstIdx, attacker: firstIdx,
+        defender: (firstIdx + 1) % players.length,
+        table: [], firstBeatDone: false,
+        finished: false, discardPile: []
+    };
+
+    Sound.reward();
+    showScreen('game');
+    renderGame();
+    showToast('🎲 ' + firstInfo);
+
+    if (game.players[game.turn].isBot) setTimeout(botTurn, 1500);
+    else startGameTimer();
+}
+
+function startGameTimer() {
+    stopGameTimer();
+    gameTimerLeft = GAME_TIMEOUT;
+    updateTimerUI();
+    gameTimer = setInterval(() => {
+        gameTimerLeft--;
+        updateTimerUI();
+        if (gameTimerLeft <= 0) { stopGameTimer(); onTimeout(); }
+    }, 1000);
+}
+function stopGameTimer() { if (gameTimer) { clearInterval(gameTimer); gameTimer = null; } }
+function updateTimerUI() {
+    const fill = document.getElementById('timerFill');
+    fill.style.width = ((gameTimerLeft / GAME_TIMEOUT) * 100) + '%';
+    fill.classList.toggle('warning', gameTimerLeft <= 10);
+}
+
+function isMeAttacker() { return game && game.players[game.attacker].name === currentUser.nickname; }
+function isMeDefender() { return game && game.players[game.defender].name === currentUser.nickname; }
+function cardToString(c) { return c.rank + c.suit; }
+function isRed(c) { return c.suit === '♥' || c.suit === '♦'; }
+function isTrump(c) { return game && c.suit === game.trumpSuit; }
+
+function canBeatFair(attack, defend) {
+    if (!game) return false;
+    if (defend.suit === attack.suit) return defend.value > attack.value;
+    if (defend.suit === game.trumpSuit && attack.suit !== game.trumpSuit) return true;
+    return false;
+}
+function canAddCard(card) {
+    if (game.table.length === 0) return true;
+    return game.table.some(p => p.attack.rank === card.rank || (p.defend && p.defend.rank === card.rank));
+}
+function maxTableCards() { return game.firstBeatDone ? 6 : 5; }
+
+function isTransferMode() { return gameConfig.move.indexOf('perevodnoy') !== -1; }
+function canTransfer(card, targetAttack) { return card.rank === targetAttack.rank; }
+
+function renderGame() {
+    if (!game) return;
+    document.getElementById('gBet').textContent = gameConfig.bet ? gameConfig.bet.toLocaleString() : '—';
+    document.getElementById('gTrump').textContent = game.trumpSuit + ' (' + SUIT_NAMES[game.trumpSuit] + ')';
+    document.getElementById('gDeck').textContent = game.deck.length;
+    const turnPlayer = game.players[game.turn];
+    document.getElementById('gTurn').textContent = turnPlayer.isBot ? '🤖 ' + turnPlayer.name : turnPlayer.name;
+    document.getElementById('gMyTurn').textContent = isMeAttacker() ? 'Атака' : isMeDefender() ? 'Защита' : 'Ждать';
+
+    const dc = document.getElementById('deckCount');
+    const dt = document.getElementById('deckTrump');
+    dc.textContent = game.deck.length;
+    dt.textContent = cardToString(game.trumpCard);
+    dt.classList.toggle('red', isRed(game.trumpCard));
+    if (game.deck.length === 0) {
+        dt.classList.add('empty');
+        dt.title = 'Козырь (колода пуста)';
+    } else {
+        dt.classList.remove('empty');
+        dt.title = 'Козырь лежит внизу колоды. Возьмётся последним.';
+    }
+
+    const pi = document.getElementById('playersInfo');
+    pi.innerHTML = '';
+    game.players.forEach((p, idx) => {
+        const el = document.createElement('div');
+        el.className = 'player-info';
+        if (idx === game.turn) el.classList.add('active');
+        if (p.out) el.classList.add('out');
+        const n = document.createElement('div'); n.className = 'pi-name'; n.textContent = p.isBot ? '🤖 ' + p.name : p.name;
+        const c = document.createElement('div'); c.className = 'pi-cards';
+        c.textContent = p.out ? '✓ вышел' : '🃏 ' + p.hand.length;
+        el.appendChild(n); el.appendChild(c);
+        pi.appendChild(el);
+    });
+
+    const ct = document.getElementById('centerTable');
+    ct.innerHTML = '';
+    game.table.forEach((pair, idx) => {
+        const w = document.createElement('div'); w.className = 'pair-wrap';
+
+        const ac = document.createElement('div');
+        ac.className = 'mini-card attacking' + (isRed(pair.attack) ? ' red' : '') + (isTrump(pair.attack) ? ' trump-card' : '');
+        ac.textContent = cardToString(pair.attack);
+        // Клик — попытка вскрытия шулера
+        ac.addEventListener('click', () => tryRevealCheat(idx));
+        w.appendChild(ac);
+
+        if (pair.defend) {
+            const dc2 = document.createElement('div');
+            dc2.className = 'mini-card defending' + (isRed(pair.defend) ? ' red' : '') + (isTrump(pair.defend) ? ' trump-card' : '');
+            dc2.textContent = cardToString(pair.defend);
+            dc2.addEventListener('click', () => tryRevealCheat(idx));
+            w.appendChild(dc2);
+        }
+
+        if (!pair.defend && isTransferMode() && isMeDefender()) {
+            const ts = document.createElement('div');
+            ts.className = 'transfer-slot';
+            ts.textContent = '↻';
+            ts.title = 'Перетащите карту того же ранга, чтобы перевести';
+            ts.dataset.transferIdx = idx;
+            w.appendChild(ts);
+        }
+
+        ct.appendChild(w);
+    });
+
+    const h = document.getElementById('hand');
+    h.innerHTML = '';
+    const me = game.players.find(p => p.name === currentUser.nickname);
+    if (me) {
+        const sorted = sortHand([...me.hand]);
+        sorted.forEach(card => {
+            const el = document.createElement('div');
+            el.className = 'hand-card' + (isRed(card) ? ' red' : '') + (isTrump(card) ? ' trump-card' : '');
+            el.textContent = cardToString(card);
+            const canPlay = canPlayCard(me, card);
+            if (!canPlay) el.classList.add('disabled');
+            else attachDragHandlers(el, me, card);
+            h.appendChild(el);
+        });
+    }
+    renderControls();
+}
+
+function sortHand(hand) {
+    const suitOrder = { '♠': 0, '♥': 1, '♦': 2, '♣': 3 };
+    if (settings.layout === 'suits') {
+        hand.sort((a, b) => {
+            if (a.suit !== b.suit) return suitOrder[a.suit] - suitOrder[b.suit];
+            return a.value - b.value;
+        });
+    } else {
+        hand.sort((a, b) => {
+            if (a.value !== b.value) return a.value - b.value;
+            return suitOrder[a.suit] - suitOrder[b.suit];
+        });
+    }
+    return hand;
+}
+
+function canPlayCard(player, card) {
+    if (game.finished) return false;
+    if (!isMeAttacker() && !isMeDefender()) return false;
+    if (isMeDefender()) {
+        const undefended = game.table.filter(p => !p.defend);
+        if (undefended.length === 0) return false;
+        const target = undefended[0];
+        if (isTransferMode() && canTransfer(card, target.attack)) return true;
+        if (gameConfig.fair === 'shuler') return true;
+        return canBeatFair(target.attack, card);
+    }
+    if (isMeAttacker()) {
+        if (game.table.length >= maxTableCards()) return false;
+        return canAddCard(card);
+    }
+    return false;
+}
+
+function renderControls() {
+    const c = document.getElementById('gameControls');
+    c.innerHTML = '';
+    if (game.finished) return;
+
+    const exitBtn = document.createElement('button');
+    exitBtn.className = 'ctrl-btn exit';
+    exitBtn.textContent = '🚪';
+    exitBtn.title = 'Выйти из игры';
+    exitBtn.addEventListener('click', showExitGameModal);
+    c.appendChild(exitBtn);
+
+    if (isMeDefender()) {
+        // Защитник: только "Взять" (Бито нажимает атакующий)
+        const takeBtn = document.createElement('button');
+        takeBtn.className = 'ctrl-btn take';
+        takeBtn.textContent = 'Взять';
+        takeBtn.addEventListener('click', () => takeCards());
+        c.appendChild(takeBtn);
+    } else if (isMeAttacker()) {
+        // Атакующий: "Бито" — если все карты побиты
+        const allBeaten = game.table.length > 0 && game.table.every(p => p.defend);
+        if (allBeaten) {
+            const beatBtn = document.createElement('button');
+            beatBtn.className = 'ctrl-btn beat';
+            beatBtn.textContent = 'Бито';
+            beatBtn.addEventListener('click', () => pressBito());
+            c.appendChild(beatBtn);
+        }
+    } else {
+        const waitBtn = document.createElement('button');
+        waitBtn.className = 'ctrl-btn pass';
+        waitBtn.textContent = 'Ожидание...';
+        waitBtn.disabled = true;
+        c.appendChild(waitBtn);
+    }
+}
+
+// ===== ВСКРЫТИЕ ШУЛЕРА — без визуальных подсказок =====
+function tryRevealCheat(pairIdx) {
+    if (!game || game.finished) return;
+    if (gameConfig.fair !== 'shuler') return;
+    const pair = game.table[pairIdx];
+    if (!pair) return;
+
+    // Бьющийся не может вскрывать свои же карты
+    if (isMeDefender() && pair.defend && pair.isCheatBy === 'me-defender') {
+        return;
+    }
+
+    if (pair.isCheat) {
+        // Вскрытие удалось!
+        const attacker = game.players[game.attacker];
+        const pairsToReturn = game.table.slice(pairIdx);
+        pairsToReturn.forEach(p => {
+            if (p.attack) attacker.hand.push(p.attack);
+            if (p.defend) attacker.hand.push(p.defend);
+        });
+        game.table = game.table.slice(0, pairIdx);
+        game.firstBeatDone = game.table.some(p => p.defend);
+        Sound.cheatCaught();
+        showToast('🚨 Шулер вскрыт! Карты возвращаются ' + attacker.name, true);
+        stopGameTimer();
+        renderGame();
+        if (attacker.isBot) setTimeout(botTurn, 1200);
+        else startGameTimer();
+    } else {
+        Sound.clickSoft();
+        showToast('✅ Карта честная', false, true);
+    }
+}
+
+function attachDragHandlers(el, player, card) {
+    el.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        startDrag(el, player, card, e);
+    });
+}
+
+function startDrag(el, player, card, e) {
+    if (dragState) return;
+    const rect = el.getBoundingClientRect();
+    const ghost = document.createElement('div');
+    ghost.className = 'drag-ghost' + (isRed(card) ? ' red' : '');
+    ghost.textContent = cardToString(card);
+    document.body.appendChild(ghost);
+
+    dragState = { el, player, card, ghost };
+    el.classList.add('dragging');
+    moveGhost(e.clientX, e.clientY);
+
+    document.addEventListener('pointermove', onDragMove);
+    document.addEventListener('pointerup', onDragEnd);
+    document.addEventListener('pointercancel', onDragEnd);
+}
+
+function moveGhost(x, y) {
+    if (!dragState) return;
+    dragState.ghost.style.left = x + 'px';
+    dragState.ghost.style.top = y + 'px';
+}
+
+function onDragMove(e) {
+    if (!dragState) return;
+    e.preventDefault();
+    moveGhost(e.clientX, e.clientY);
+    clearDropHighlights();
+    const target = getDropTarget(e.clientX, e.clientY);
+    if (target) {
+        if (target.type === 'beat') target.el.classList.add('drop-target');
+        else if (target.el) target.el.classList.add('drop-target');
+    }
+}
+
+function clearDropHighlights() {
+    document.querySelectorAll('.drop-target').forEach(el => el.classList.remove('drop-target'));
+}
+
+function getDropTarget(x, y) {
+    const transferSlots = document.querySelectorAll('.transfer-slot');
+    for (const slot of transferSlots) {
+        const r = slot.getBoundingClientRect();
+        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+            return { type: 'transfer', idx: parseInt(slot.dataset.transferIdx), el: slot };
+        }
+    }
+    const miniCards = document.querySelectorAll('.center-table .mini-card.attacking');
+    for (const mc of miniCards) {
+        const r = mc.getBoundingClientRect();
+        if (x >= r.left - 8 && x <= r.right + 8 && y >= r.top - 8 && y <= r.bottom + 8) {
+            const pairWrap = mc.closest('.pair-wrap');
+            const pairs = [...document.querySelectorAll('.center-table .pair-wrap')];
+            const idx = pairs.indexOf(pairWrap);
+            return { type: 'beat', idx, el: pairWrap };
+        }
+    }
+    const ct = document.getElementById('centerTable');
+    const r = ct.getBoundingClientRect();
+    if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+        return { type: 'table', el: ct };
+    }
+    return null;
+}
+
+function onDragEnd(e) {
+    if (!dragState) return;
+    const { el, player, card, ghost } = dragState;
+    el.classList.remove('dragging');
+    ghost.remove();
+    clearDropHighlights();
+    document.removeEventListener('pointermove', onDragMove);
+    document.removeEventListener('pointerup', onDragEnd);
+    document.removeEventListener('pointercancel', onDragEnd);
+
+    const target = getDropTarget(e.clientX, e.clientY);
+    dragState = null;
+    if (!target) return;
+
+    if (target.type === 'transfer') doTransfer(player, card, target.idx);
+    else if (target.type === 'beat') doBeat(player, card, target.idx);
+    else if (target.type === 'table') doAttack(player, card);
+}
+
+function doAttack(player, card) {
+    if (!isMeAttacker()) return;
+    if (game.table.length >= maxTableCards()) { Sound.error(); showToast('Максимум карт на столе', true); return; }
+    if (!canAddCard(card)) { Sound.error(); showToast('Эту карту нельзя подкинуть', true); return; }
+    const i = player.hand.indexOf(card);
+    if (i === -1) return;
+    player.hand.splice(i, 1);
+    game.table.push({ attack: card, defend: null, isCheat: false });
+    Sound.cardPlay();
+    stopGameTimer();
+    renderGame();
+    const def = game.players[game.defender];
+    if (def.isBot) setTimeout(botDefend, 1000);
+    else startGameTimer();
+}
+
+function doBeat(player, card, targetIdx) {
+    if (!isMeDefender()) return;
+    const pair = game.table[targetIdx];
+    if (!pair || pair.defend) return;
+    const isCheatBeat = gameConfig.fair === 'shuler' && !canBeatFair(pair.attack, card);
+    if (!canBeatFair(pair.attack, card) && gameConfig.fair !== 'shuler') {
+        Sound.error(); showToast('Этой картой нельзя побить', true); return;
+    }
+    const i = player.hand.indexOf(card);
+    if (i === -1) return;
+    player.hand.splice(i, 1);
+    pair.defend = card;
+    pair.isCheat = isCheatBeat;
+    pair.isCheatBy = 'me-defender';
+    game.firstBeatDone = true;
+    Sound.cardPlay();
+    stopGameTimer();
+    renderGame();
+    startGameTimer();
+}
+
+function doTransfer(player, card, targetIdx) {
+    if (!isMeDefender()) return;
+    if (!isTransferMode()) return;
+    const pair = game.table[targetIdx];
+    if (!pair || pair.defend) return;
+    if (!canTransfer(card, pair.attack)) { Sound.error(); showToast('Перевод только картой того же ранга', true); return; }
+
+    const i = player.hand.indexOf(card);
+    if (i === -1) return;
+    player.hand.splice(i, 1);
+
+    game.table.push({ attack: card, defend: null, isCheat: false });
+    let nextD = (game.defender + 1) % game.players.length;
+    let guard = 0;
+    while ((game.players[nextD].out || nextD === game.attacker) && guard < game.players.length) {
+        nextD = (nextD + 1) % game.players.length;
+        guard++;
+    }
+    game.defender = nextD;
+    Sound.success();
+    showToast('🔄 Перевод на ' + game.players[nextD].name);
+    stopGameTimer();
+    renderGame();
+    if (game.players[nextD].isBot) setTimeout(botDefend, 1200);
+    else startGameTimer();
+}
+
+function takeCards() {
+    if (!game) return;
+    const def = game.players[game.defender];
+    game.table.forEach(pair => {
+        def.hand.push(pair.attack);
+        if (pair.defend) def.hand.push(pair.defend);
+    });
+    game.table = [];
+    game.firstBeatDone = false;
+    Sound.cardTake();
+    stopGameTimer();
+    showToast(def.name + ' берёт карты');
+    nextTurnAfterRound(true); // флаг: был "взять"
+}
+
+function pressBito() {
+    if (!game) return;
+    game.table.forEach(pair => {
+        if (pair.defend) game.discardPile.push(pair.attack, pair.defend);
+        else game.discardPile.push(pair.attack);
+    });
+    game.table = [];
+    game.firstBeatDone = false;
+    Sound.success();
+    stopGameTimer();
+    showToast('Бито!');
+    nextTurnAfterRound(false);
+}
+
+function nextTurnAfterRound(wasTake) {
+    if (!game) return;
+    refillHands();
+    if (checkGameEnd()) return;
+
+    let nextDefender = (game.defender + 1) % game.players.length;
+    let guard = 0;
+    while (game.players[nextDefender].out && guard < game.players.length) {
+        nextDefender = (nextDefender + 1) % game.players.length;
+        guard++;
+    }
+
+    if (wasTake) {
+        // После "Взять" — атакует следующий после защитника (классика)
+        game.attacker = nextDefender;
+    } else {
+        // После "Бито" — атакует защитник (если у него есть карты), иначе следующий
+        if (!game.players[game.defender].out && game.players[game.defender].hand.length > 0) {
+            game.attacker = game.defender;
+        } else {
+            game.attacker = nextDefender;
+        }
+    }
+
+    let d = (game.attacker + 1) % game.players.length;
+    guard = 0;
+    while ((game.players[d].out || d === game.attacker) && guard < game.players.length) {
+        d = (d + 1) % game.players.length;
+        guard++;
+    }
+    game.defender = d;
+    game.turn = game.attacker;
+
+    renderGame();
+    if (game.players[game.attacker].isBot) setTimeout(botTurn, 1200);
+    else startGameTimer();
+}
+
+function refillHands() {
+    const order = [game.defender, game.attacker];
+    game.players.forEach((p, i) => {
+        if (i !== game.defender && i !== game.attacker && !p.out) order.push(i);
+    });
+    for (const idx of order) {
+        const p = game.players[idx];
+        if (p.out) continue;
+        while (p.hand.length < 6 && game.deck.length > 0) {
+            p.hand.push(game.deck.pop());
+        }
+        if (p.hand.length === 0 && game.deck.length === 0) p.out = true;
+    }
+    game.players.forEach(p => {
+        if (!p.out && p.hand.length === 0 && game.deck.length === 0) p.out = true;
+    });
+}
+
+function checkGameEnd() {
+    const activePlayers = game.players.filter(p => !p.out);
+    if (activePlayers.length <= 1) {
+        game.finished = true;
+        stopGameTimer();
+        endGame(activePlayers);
+        return true;
+    }
+    return false;
+}
+
+function endGame(activePlayers) {
+    const loser = activePlayers[0] || game.players.find(p => p.hand.length > 0);
+    const winners = game.players.filter(p => p !== loser);
+    const totalPrize = gameConfig.bet * game.players.length;
+    const meWon = currentUser.nickname !== loser.name;
+    if (meWon) {
+        const share = Math.floor(totalPrize / winners.length);
+        const u = getUsers();
+        if (u[currentUser.nickname]) {
+            u[currentUser.nickname].credits += share;
+            saveUsers(u); currentUser.credits += share;
+        }
+        refreshUserUI();
+        showResult(true, share, 'Вы обыграли ' + loser.name + '!');
+    } else {
+        showResult(false, 0, 'Вы проиграли. Дурак — ' + currentUser.nickname);
+    }
+    Sound.reward();
+}
+
+function onTimeout() {
+    if (isMeDefender()) {
+        showToast('Время вышло — вы берёте карты', true);
+        takeCards();
+    } else if (isMeAttacker()) {
+        showToast('Время вышло — авто-бито');
+        pressBito();
+    } else {
+        startGameTimer();
+    }
+}
+
+function botTurn() {
+    if (!game || game.finished) return;
+    const bot = game.players[game.attacker];
+    if (!bot || !bot.isBot) return;
+    if (bot.hand.length === 0) { nextTurnAfterRound(false); return; }
+
+    let cardToPlay = null;
+    if (game.table.length === 0) {
+        const nonTrump = bot.hand.filter(c => c.suit !== game.trumpSuit);
+        const pool = nonTrump.length > 0 ? nonTrump : bot.hand;
+        pool.sort((a, b) => a.value - b.value);
+        cardToPlay = pool[0];
+    } else {
+        const ranks = new Set(game.table.map(p => p.attack.rank));
+        const candidates = bot.hand.filter(c => ranks.has(c.rank));
+        if (candidates.length > 0) cardToPlay = candidates[0];
+    }
+    if (!cardToPlay) {
+        const allBeaten = game.table.length > 0 && game.table.every(p => p.defend);
+        if (allBeaten) pressBito();
+        else if (game.table.length === 0) takeCards();
+        return;
+    }
+    if (game.table.length >= maxTableCards()) { pressBito(); return; }
+    if (!canAddCard(cardToPlay)) { pressBito(); return; }
+    const i = bot.hand.indexOf(cardToPlay);
+    bot.hand.splice(i, 1);
+    game.table.push({ attack: cardToPlay, defend: null, isCheat: false });
+    Sound.cardPlay();
+    renderGame();
+    const def = game.players[game.defender];
+    if (def.isBot) setTimeout(botDefend, 900);
+    else startGameTimer();
+}
+
+function botDefend() {
+    if (!game || game.finished) return;
+    const def = game.players[game.defender];
+    if (!def || !def.isBot) return;
+    const undefended = game.table.filter(p => !p.defend);
+    if (undefended.length === 0) {
+        // Защитник-бот отбился — ждёт, пока атакующий нажмёт Бито
+        // Если атакующий тоже бот — авто-бито
+        const att = game.players[game.attacker];
+        if (att.isBot) setTimeout(pressBito, 800);
+        return;
+    }
+    const target = undefended[0];
+
+    let options = def.hand.filter(c => canBeatFair(target.attack, c));
+    options.sort((a, b) => {
+        const aT = a.suit === game.trumpSuit ? 1 : 0;
+        const bT = b.suit === game.trumpSuit ? 1 : 0;
+        if (aT !== bT) return aT - bT;
+        return a.value - b.value;
+    });
+
+    let cheatBeat = false;
+    if (options.length === 0 && gameConfig.fair === 'shuler' && Math.random() < 0.3) {
+        const sorted = [...def.hand].sort((a, b) => a.value - b.value);
+        if (sorted.length > 0) { options = [sorted[0]]; cheatBeat = true; }
+    }
+
+    const shouldBeat = options.length > 0 && (Math.random() < 0.85 || def.hand.length > 8);
+    if (!shouldBeat) { takeCards(); return; }
+
+    const card = options[0];
+    const i = def.hand.indexOf(card);
+    def.hand.splice(i, 1);
+    target.defend = card;
+    target.isCheat = cheatBeat;
+    target.isCheatBy = 'bot-defender';
+    game.firstBeatDone = true;
+    Sound.cardPlay();
+    renderGame();
+
+    const att = game.players[game.attacker];
+    if (att.isBot) setTimeout(botTurn, 900);
+    else startGameTimer();
+}
+
+const exitGameModal = document.getElementById('exitGameModal');
+function showExitGameModal() {
+    if (!game || game.finished) return;
+    const activeCount = game.players.filter(p => !p.out).length - 1;
+    document.getElementById('exitWarnText').textContent =
+        'Вы проиграете. ' + gameConfig.bet.toLocaleString() + ' кр. уйдут ' + activeCount + ' игрокам.';
+    exitGameModal.classList.add('active');
+    Sound.click();
+}
+document.getElementById('exitGameNo').addEventListener('click', () => {
+    Sound.clickSoft(); exitGameModal.classList.remove('active');
+});
+document.getElementById('exitGameYes').addEventListener('click', () => {
+    Sound.clickLow(); exitGameModal.classList.remove('active');
+    stopGameTimer();
+    const me = game.players.find(p => p.name === currentUser.nickname);
+    if (me) me.out = true;
+    game.finished = true;
+    showResult(false, 0, 'Вы вышли из игры и проиграли');
+});
+exitGameModal.addEventListener('click', e => {
+    if (e.target === exitGameModal) { Sound.clickSoft(); exitGameModal.classList.remove('active'); }
+});
+
+function showResult(won, prize, text) {
+    document.getElementById('resultIcon').textContent = won ? '🏆' : '😢';
+    document.getElementById('resultTitle').textContent = won ? 'Победа!' : 'Проигрыш';
+    document.getElementById('resultTitle').style.color = won ? 'var(--accent)' : '#d94a4a';
+    document.getElementById('resultText').textContent = text;
+    document.getElementById('resultPrize').textContent = won && prize > 0 ? '+' + prize.toLocaleString() + ' кр.' : '';
+    document.getElementById('resultPrize').style.color = won ? 'var(--accent)' : '#d94a4a';
+    showScreen('result');
+}
+document.getElementById('resultOk').addEventListener('click', () => {
+    Sound.click(); game = null; betEscrow = 0; lobbyBots = []; refreshUserUI(); showScreen('mainMenu');
+});
+
+function attachButtonSounds() {
+    document.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = btn.id;
+            if (id === 'soundToggle') return;
+            if (id === 'menuPlusBtn' || id === 'profilePlusBtn') { Sound.coins(); return; }
+            if (id === 'logoutYes' || id === 'removeFriendYes' || id === 'exitGameYes') { Sound.clickLow(); return; }
+            if (id === 'logoutNo' || id === 'nickCancelBtn' || id === 'removeFriendNo' || id === 'exitGameNo') { Sound.clickSoft(); return; }
+            if (id === 'layoutToggle' || id === 'themeToggle') { Sound.trump(); return; }
+            if (id === 'langToggle') { Sound.click(); return; }
+            Sound.click();
+        });
+    });
+}
+
+document.body.className = 'theme-' + settings.theme;
+attachButtonButtons();
+attachButtonSounds();
+
+if (loadCurrentUser()) showScreen('mainMenu');
+else showScreen('auth');
+
+function attachButtonButtons() {}
+
+})();
+</script>
+</body>
+</html>
