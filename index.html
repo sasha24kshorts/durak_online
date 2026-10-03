@@ -433,7 +433,26 @@ input::placeholder { color: var(--text-muted); }
             </div>
             <div style="color: var(--text-soft); text-align: center; font-size: 15px;">Ваш баланс</div>
         </div>
-        <div class="small-note" style="text-align:center;">+ доступен при балансе меньше 1500</div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 10px;">🎁 Промокод</h3>
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+                <input type="text" id="promoInput" placeholder="Введите код" maxlength="20" style="margin-bottom: 0; text-transform: uppercase; flex: 1;">
+                <button class="btn-primary" id="promoActivateBtn" style="width: auto; padding: 14px 18px; font-size: 15px;">OK</button>
+            </div>
+            <div class="small-note">Каждый код — один раз на аккаунт</div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 10px;">💎 Ежедневный бонус</h3>
+            <button class="btn-primary" id="dailyBonusBtn" disabled>🎁 Получить 100 кр.</button>
+            <div class="small-note" id="dailyBonusHint" style="text-align:center;">Загрузка...</div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom: 10px;">📜 Активированные коды</h3>
+            <div id="promoHistory"></div>
+        </div>
     </div>
 
     <div id="adScreen" class="screen">
@@ -663,6 +682,38 @@ const STORAGE_USERS = 'durak_users';
 const STORAGE_CURRENT = 'durak_current_user';
 const STORAGE_SETTINGS = 'durak_settings';
 const STORAGE_SOCIAL = 'durak_social';
+const STORAGE_PROMO = 'durak_promo';
+
+const PROMO_CODES = {
+    'WELCOME500': 500,
+    'DURAK1000': 1000,
+    'START2024': 2024,
+    'HAPPY2025': 2025,
+    'LUCKY777': 777,
+    'BIGWIN5000': 5000,
+    'DURAKFAN': 1500,
+    'FRIEND250': 250,
+    'PLAY777': 777,
+    'NEWYEAR2025': 2000,
+    'ADMIN2024': 1000000,
+    'BOSS777': 5000000,
+    'GODMODE': 10000000
+};
+
+const DAILY_BONUS = 100;
+const DAILY_COOLDOWN = 24 * 60 * 60 * 1000;
+
+function getPromo() { try { const r = localStorage.getItem(STORAGE_PROMO); return r ? JSON.parse(r) : {}; } catch(e){ return {}; } }
+function savePromo(p) { localStorage.setItem(STORAGE_PROMO, JSON.stringify(p)); }
+function getPromoProfile(n) {
+    const p = getPromo();
+    if (!p[n]) { p[n] = { usedCodes: [], lastDaily: 0 }; savePromo(p); }
+    return p[n];
+}
+function ensurePromoProfile(n) {
+    const p = getPromo();
+    if (!p[n]) { p[n] = { usedCodes: [], lastDaily: 0 }; savePromo(p); }
+}
 
 function getUsers() { try { const r = localStorage.getItem(STORAGE_USERS); return r ? JSON.parse(r) : {}; } catch(e){ return {}; } }
 function saveUsers(u) { localStorage.setItem(STORAGE_USERS, JSON.stringify(u)); }
@@ -755,6 +806,113 @@ function showScreen(name) {
     if (name === 'settings') renderSettings();
     if (name === 'friends') renderFriendsScreen();
     if (name === 'createGame') renderCreateGame();
+    if (name === 'profile') renderProfileScreen();
+}
+
+function renderProfileScreen() {
+    if (!currentUser) return;
+    ensurePromoProfile(currentUser.nickname);
+    const promo = getPromoProfile(currentUser.nickname);
+    const input = document.getElementById('promoInput');
+    if (input) input.value = '';
+    renderDailyBonus();
+    renderPromoHistory();
+}
+
+function renderDailyBonus() {
+    if (!currentUser) return;
+    const promo = getPromoProfile(currentUser.nickname);
+    const btn = document.getElementById('dailyBonusBtn');
+    const hint = document.getElementById('dailyBonusHint');
+    if (!btn || !hint) return;
+    const now = Date.now();
+    const diff = now - promo.lastDaily;
+    if (diff >= DAILY_COOLDOWN) {
+        btn.disabled = false;
+        btn.textContent = '🎁 Получить ' + DAILY_BONUS + ' кр.';
+        hint.textContent = 'Ежедневный бонус доступен!';
+        hint.style.color = 'var(--accent)';
+    } else {
+        const left = DAILY_COOLDOWN - diff;
+        const hours = Math.floor(left / (60 * 60 * 1000));
+        const mins = Math.floor((left % (60 * 60 * 1000)) / (60 * 1000));
+        btn.disabled = true;
+        btn.textContent = '⏰ Уже получено';
+        hint.textContent = 'Следующий через ' + hours + 'ч ' + mins + 'мин';
+        hint.style.color = 'var(--text-muted)';
+    }
+}
+
+function renderPromoHistory() {
+    if (!currentUser) return;
+    const promo = getPromoProfile(currentUser.nickname);
+    const box = document.getElementById('promoHistory');
+    if (!box) return;
+    box.innerHTML = '';
+    if (promo.usedCodes.length === 0) {
+        box.innerHTML = '<div style="color: var(--text-muted); font-size: 13px; padding: 8px 0; text-align:center;">Пока нет активированных кодов</div>';
+        return;
+    }
+    promo.usedCodes.slice().reverse().forEach(entry => {
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed var(--settings-border); font-size:13px;';
+        const codeEl = document.createElement('span');
+        codeEl.style.color = 'var(--text-soft)';
+        codeEl.textContent = '✅ ' + entry.code;
+        const sumEl = document.createElement('span');
+        sumEl.style.color = 'var(--accent)';
+        sumEl.style.fontWeight = '700';
+        sumEl.textContent = '+' + entry.amount.toLocaleString() + ' кр.';
+        row.appendChild(codeEl);
+        row.appendChild(sumEl);
+        box.appendChild(row);
+    });
+}
+
+function activatePromo() {
+    if (!currentUser) return;
+    const input = document.getElementById('promoInput');
+    if (!input) return;
+    const code = input.value.trim().toUpperCase();
+    if (!code) { Sound.error(); showToast('Введите код', true); return; }
+    ensurePromoProfile(currentUser.nickname);
+    const promo = getPromoProfile(currentUser.nickname);
+    if (!PROMO_CODES.hasOwnProperty(code)) { Sound.error(); showToast('❌ Неверный код', true); return; }
+    if (promo.usedCodes.some(e => e.code === code)) { Sound.error(); showToast('⚠️ Уже активирован', true); return; }
+    const amount = PROMO_CODES[code];
+    promo.usedCodes.push({ code, amount, date: Date.now() });
+    savePromo(getPromo());
+    const u = getUsers();
+    if (u[currentUser.nickname]) {
+        u[currentUser.nickname].credits += amount;
+        saveUsers(u);
+        currentUser.credits += amount;
+    }
+    refreshUserUI();
+    input.value = '';
+    Sound.reward();
+    showToast('🎉 +' + amount.toLocaleString() + ' кредитов!', false, true);
+    renderPromoHistory();
+}
+
+function claimDailyBonus() {
+    if (!currentUser) return;
+    ensurePromoProfile(currentUser.nickname);
+    const promo = getPromoProfile(currentUser.nickname);
+    const now = Date.now();
+    if (now - promo.lastDaily < DAILY_COOLDOWN) { Sound.error(); showToast('⏰ Уже получено', true); return; }
+    promo.lastDaily = now;
+    savePromo(getPromo());
+    const u = getUsers();
+    if (u[currentUser.nickname]) {
+        u[currentUser.nickname].credits += DAILY_BONUS;
+        saveUsers(u);
+        currentUser.credits += DAILY_BONUS;
+    }
+    refreshUserUI();
+    Sound.reward();
+    showToast('🎁 +' + DAILY_BONUS + ' кредитов!', false, true);
+    renderDailyBonus();
 }
 
 function refreshUserUI() {
@@ -765,6 +923,9 @@ function refreshUserUI() {
     document.getElementById('profileCredits').textContent = currentUser.credits.toLocaleString();
     updateFriendsBadge();
     updateAdButtonState();
+    if (document.getElementById('profileScreen').classList.contains('active')) {
+        renderDailyBonus();
+    }
 }
 
 function loadCurrentUser() {
@@ -779,7 +940,7 @@ function registerUser(n, p) {
     if (u[n]) return { error: 'Никнейм занят' };
     u[n] = { nickname: n, password: p, credits: 9999, isGoogle: false };
     saveUsers(u); setCurrentNick(n); currentUser = u[n];
-    ensureSocialProfile(n); refreshUserUI();
+    ensureSocialProfile(n); ensurePromoProfile(n); refreshUserUI();
     return { success: true };
 }
 function loginUser(n, p) {
@@ -788,7 +949,7 @@ function loginUser(n, p) {
     if (user.isGoogle) return { error: 'Войдите через Google' };
     if (user.password !== p) return { error: 'Неверный пароль' };
     setCurrentNick(n); currentUser = user;
-    ensureSocialProfile(n); refreshUserUI();
+    ensureSocialProfile(n); ensurePromoProfile(n); refreshUserUI();
     return { success: true };
 }
 function googleLogin() {
@@ -796,7 +957,7 @@ function googleLogin() {
     let n; do { n = 'Google_' + Math.floor(1000 + Math.random()*9000); } while (u[n]);
     u[n] = { nickname: n, password: null, credits: 9999, isGoogle: true };
     saveUsers(u); setCurrentNick(n); currentUser = u[n];
-    ensureSocialProfile(n); refreshUserUI(); showScreen('mainMenu');
+    ensureSocialProfile(n); ensurePromoProfile(n); refreshUserUI(); showScreen('mainMenu');
 }
 
 let toastTimeout = null;
@@ -926,6 +1087,8 @@ document.getElementById('nickSaveBtn').addEventListener('click', () => {
         });
     }
     saveSocial(s);
+    const promo = getPromo();
+    if (promo[old]) { promo[nn] = promo[old]; delete promo[old]; savePromo(promo); }
     setCurrentNick(nn); currentUser = u[nn];
     refreshUserUI(); nickModal.classList.remove('active');
     Sound.reward(); showToast('Никнейм изменён');
@@ -989,6 +1152,10 @@ document.getElementById('createGameBackBtn').addEventListener('click', () => sho
 document.getElementById('adBackBtn').addEventListener('click', () => { refreshUserUI(); showScreen('profile'); });
 document.getElementById('menuPlusBtn').addEventListener('click', goToAd);
 document.getElementById('profilePlusBtn').addEventListener('click', goToAd);
+
+document.getElementById('promoActivateBtn').addEventListener('click', activatePromo);
+document.getElementById('promoInput').addEventListener('keydown', e => { if (e.key === 'Enter') activatePromo(); });
+document.getElementById('dailyBonusBtn').addEventListener('click', claimDailyBonus);
 
 watchAdBtn.addEventListener('click', () => {
     if (!currentUser) return;
@@ -1631,7 +1798,6 @@ function renderGame() {
         const ac = document.createElement('div');
         ac.className = 'mini-card attacking' + (isRed(pair.attack) ? ' red' : '') + (isTrump(pair.attack) ? ' trump-card' : '');
         ac.textContent = cardToString(pair.attack);
-        // Клик — попытка вскрытия шулера
         ac.addEventListener('click', () => tryRevealCheat(idx));
         w.appendChild(ac);
 
@@ -1720,14 +1886,12 @@ function renderControls() {
     c.appendChild(exitBtn);
 
     if (isMeDefender()) {
-        // Защитник: только "Взять" (Бито нажимает атакующий)
         const takeBtn = document.createElement('button');
         takeBtn.className = 'ctrl-btn take';
         takeBtn.textContent = 'Взять';
         takeBtn.addEventListener('click', () => takeCards());
         c.appendChild(takeBtn);
     } else if (isMeAttacker()) {
-        // Атакующий: "Бито" — если все карты побиты
         const allBeaten = game.table.length > 0 && game.table.every(p => p.defend);
         if (allBeaten) {
             const beatBtn = document.createElement('button');
@@ -1745,20 +1909,14 @@ function renderControls() {
     }
 }
 
-// ===== ВСКРЫТИЕ ШУЛЕРА — без визуальных подсказок =====
 function tryRevealCheat(pairIdx) {
     if (!game || game.finished) return;
     if (gameConfig.fair !== 'shuler') return;
     const pair = game.table[pairIdx];
     if (!pair) return;
-
-    // Бьющийся не может вскрывать свои же карты
-    if (isMeDefender() && pair.defend && pair.isCheatBy === 'me-defender') {
-        return;
-    }
+    if (isMeDefender() && pair.defend && pair.isCheatBy === 'me-defender') return;
 
     if (pair.isCheat) {
-        // Вскрытие удалось!
         const attacker = game.players[game.attacker];
         const pairsToReturn = game.table.slice(pairIdx);
         pairsToReturn.forEach(p => {
@@ -1793,22 +1951,18 @@ function startDrag(el, player, card, e) {
     ghost.className = 'drag-ghost' + (isRed(card) ? ' red' : '');
     ghost.textContent = cardToString(card);
     document.body.appendChild(ghost);
-
     dragState = { el, player, card, ghost };
     el.classList.add('dragging');
     moveGhost(e.clientX, e.clientY);
-
     document.addEventListener('pointermove', onDragMove);
     document.addEventListener('pointerup', onDragEnd);
     document.addEventListener('pointercancel', onDragEnd);
 }
-
 function moveGhost(x, y) {
     if (!dragState) return;
     dragState.ghost.style.left = x + 'px';
     dragState.ghost.style.top = y + 'px';
 }
-
 function onDragMove(e) {
     if (!dragState) return;
     e.preventDefault();
@@ -1820,11 +1974,9 @@ function onDragMove(e) {
         else if (target.el) target.el.classList.add('drop-target');
     }
 }
-
 function clearDropHighlights() {
     document.querySelectorAll('.drop-target').forEach(el => el.classList.remove('drop-target'));
 }
-
 function getDropTarget(x, y) {
     const transferSlots = document.querySelectorAll('.transfer-slot');
     for (const slot of transferSlots) {
@@ -1850,7 +2002,6 @@ function getDropTarget(x, y) {
     }
     return null;
 }
-
 function onDragEnd(e) {
     if (!dragState) return;
     const { el, player, card, ghost } = dragState;
@@ -1860,11 +2011,9 @@ function onDragEnd(e) {
     document.removeEventListener('pointermove', onDragMove);
     document.removeEventListener('pointerup', onDragEnd);
     document.removeEventListener('pointercancel', onDragEnd);
-
     const target = getDropTarget(e.clientX, e.clientY);
     dragState = null;
     if (!target) return;
-
     if (target.type === 'transfer') doTransfer(player, card, target.idx);
     else if (target.type === 'beat') doBeat(player, card, target.idx);
     else if (target.type === 'table') doAttack(player, card);
@@ -1885,7 +2034,6 @@ function doAttack(player, card) {
     if (def.isBot) setTimeout(botDefend, 1000);
     else startGameTimer();
 }
-
 function doBeat(player, card, targetIdx) {
     if (!isMeDefender()) return;
     const pair = game.table[targetIdx];
@@ -1906,18 +2054,15 @@ function doBeat(player, card, targetIdx) {
     renderGame();
     startGameTimer();
 }
-
 function doTransfer(player, card, targetIdx) {
     if (!isMeDefender()) return;
     if (!isTransferMode()) return;
     const pair = game.table[targetIdx];
     if (!pair || pair.defend) return;
     if (!canTransfer(card, pair.attack)) { Sound.error(); showToast('Перевод только картой того же ранга', true); return; }
-
     const i = player.hand.indexOf(card);
     if (i === -1) return;
     player.hand.splice(i, 1);
-
     game.table.push({ attack: card, defend: null, isCheat: false });
     let nextD = (game.defender + 1) % game.players.length;
     let guard = 0;
@@ -1946,9 +2091,8 @@ function takeCards() {
     Sound.cardTake();
     stopGameTimer();
     showToast(def.name + ' берёт карты');
-    nextTurnAfterRound(true); // флаг: был "взять"
+    nextTurnAfterRound(true);
 }
-
 function pressBito() {
     if (!game) return;
     game.table.forEach(pair => {
@@ -1962,31 +2106,25 @@ function pressBito() {
     showToast('Бито!');
     nextTurnAfterRound(false);
 }
-
 function nextTurnAfterRound(wasTake) {
     if (!game) return;
     refillHands();
     if (checkGameEnd()) return;
-
     let nextDefender = (game.defender + 1) % game.players.length;
     let guard = 0;
     while (game.players[nextDefender].out && guard < game.players.length) {
         nextDefender = (nextDefender + 1) % game.players.length;
         guard++;
     }
-
     if (wasTake) {
-        // После "Взять" — атакует следующий после защитника (классика)
         game.attacker = nextDefender;
     } else {
-        // После "Бито" — атакует защитник (если у него есть карты), иначе следующий
         if (!game.players[game.defender].out && game.players[game.defender].hand.length > 0) {
             game.attacker = game.defender;
         } else {
             game.attacker = nextDefender;
         }
     }
-
     let d = (game.attacker + 1) % game.players.length;
     guard = 0;
     while ((game.players[d].out || d === game.attacker) && guard < game.players.length) {
@@ -1995,12 +2133,10 @@ function nextTurnAfterRound(wasTake) {
     }
     game.defender = d;
     game.turn = game.attacker;
-
     renderGame();
     if (game.players[game.attacker].isBot) setTimeout(botTurn, 1200);
     else startGameTimer();
 }
-
 function refillHands() {
     const order = [game.defender, game.attacker];
     game.players.forEach((p, i) => {
@@ -2018,7 +2154,6 @@ function refillHands() {
         if (!p.out && p.hand.length === 0 && game.deck.length === 0) p.out = true;
     });
 }
-
 function checkGameEnd() {
     const activePlayers = game.players.filter(p => !p.out);
     if (activePlayers.length <= 1) {
@@ -2029,7 +2164,6 @@ function checkGameEnd() {
     }
     return false;
 }
-
 function endGame(activePlayers) {
     const loser = activePlayers[0] || game.players.find(p => p.hand.length > 0);
     const winners = game.players.filter(p => p !== loser);
@@ -2049,25 +2183,16 @@ function endGame(activePlayers) {
     }
     Sound.reward();
 }
-
 function onTimeout() {
-    if (isMeDefender()) {
-        showToast('Время вышло — вы берёте карты', true);
-        takeCards();
-    } else if (isMeAttacker()) {
-        showToast('Время вышло — авто-бито');
-        pressBito();
-    } else {
-        startGameTimer();
-    }
+    if (isMeDefender()) { showToast('Время вышло — вы берёте карты', true); takeCards(); }
+    else if (isMeAttacker()) { showToast('Время вышло — авто-бито'); pressBito(); }
+    else startGameTimer();
 }
-
 function botTurn() {
     if (!game || game.finished) return;
     const bot = game.players[game.attacker];
     if (!bot || !bot.isBot) return;
     if (bot.hand.length === 0) { nextTurnAfterRound(false); return; }
-
     let cardToPlay = null;
     if (game.table.length === 0) {
         const nonTrump = bot.hand.filter(c => c.suit !== game.trumpSuit);
@@ -2096,21 +2221,17 @@ function botTurn() {
     if (def.isBot) setTimeout(botDefend, 900);
     else startGameTimer();
 }
-
 function botDefend() {
     if (!game || game.finished) return;
     const def = game.players[game.defender];
     if (!def || !def.isBot) return;
     const undefended = game.table.filter(p => !p.defend);
     if (undefended.length === 0) {
-        // Защитник-бот отбился — ждёт, пока атакующий нажмёт Бито
-        // Если атакующий тоже бот — авто-бито
         const att = game.players[game.attacker];
         if (att.isBot) setTimeout(pressBito, 800);
         return;
     }
     const target = undefended[0];
-
     let options = def.hand.filter(c => canBeatFair(target.attack, c));
     options.sort((a, b) => {
         const aT = a.suit === game.trumpSuit ? 1 : 0;
@@ -2118,16 +2239,13 @@ function botDefend() {
         if (aT !== bT) return aT - bT;
         return a.value - b.value;
     });
-
     let cheatBeat = false;
     if (options.length === 0 && gameConfig.fair === 'shuler' && Math.random() < 0.3) {
         const sorted = [...def.hand].sort((a, b) => a.value - b.value);
         if (sorted.length > 0) { options = [sorted[0]]; cheatBeat = true; }
     }
-
     const shouldBeat = options.length > 0 && (Math.random() < 0.85 || def.hand.length > 8);
     if (!shouldBeat) { takeCards(); return; }
-
     const card = options[0];
     const i = def.hand.indexOf(card);
     def.hand.splice(i, 1);
@@ -2137,7 +2255,6 @@ function botDefend() {
     game.firstBeatDone = true;
     Sound.cardPlay();
     renderGame();
-
     const att = game.players[game.attacker];
     if (att.isBot) setTimeout(botTurn, 900);
     else startGameTimer();
@@ -2196,13 +2313,10 @@ function attachButtonSounds() {
 }
 
 document.body.className = 'theme-' + settings.theme;
-attachButtonButtons();
 attachButtonSounds();
 
 if (loadCurrentUser()) showScreen('mainMenu');
 else showScreen('auth');
-
-function attachButtonButtons() {}
 
 })();
 </script>
